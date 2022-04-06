@@ -1,6 +1,13 @@
 import React from 'react';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
 import { useAppSelector } from '../../hooks/hooks';
-import styled from 'styled-components';
 import { shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
@@ -9,16 +16,15 @@ import { GuestWithOrder, Order } from "../../types";
 import { setPaid } from "../../reducers/partyReducer";
 
 
-const Table = () => {
+const PayTable = () =>{
 
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
   const guests: GuestWithOrder[] = useAppSelector(
     state => state.party.guests.sort(
       (a: GuestWithOrder, b: GuestWithOrder) => (a.name).localeCompare(b.name)
     ), shallowEqual);
 
-  //   const order = { totalOrder: 0, moneyToCollect: 0, collectedMoney: 0 }
   const order: Order = useAppSelector(
     state => state.party.order
     , shallowEqual);
@@ -30,58 +36,49 @@ const Table = () => {
   }
 
   return (
-    <ResultTable>
-      <thead>
-        <tr>
-          <Th>Name</Th>
-          <Th>Share to pay</Th>
-          <Th>Pay</Th>
-        </tr>
-      </thead>
-      <tbody>
-        {guests.map(guest => {
-          return (
-            <tr key={guest.name}>
-              {guest.isVegan === true ? <Td className="vegan">{guest.name}</Td> : <Td>{guest.name}</Td>}
-              <Td>{formatMoney(guest.order)} BYN</Td>
-              <Td>
-                <button onClick={(e) => handleClick(e, guest.order, guest.name)}>Pay</button>
-              </Td>
-            </tr>
-          )
-        })}
-        <tr>
-          <Td>Total order</Td>
-          <Td>{formatMoney(order.totalOrder)} BYN</Td>
-          <Td></Td>
-        </tr>
-        <tr>
-          <Td>Money to collect</Td>
-          <Td>{formatMoney(order.moneyToCollect)} BYN</Td>
-          <Td></Td>
-        </tr>
-        <tr>
-          <Td>Money collected</Td>
-          <Td>{formatMoney(order.collectedMoney)} BYN</Td>
-          <Td></Td>
-        </tr>
-      </tbody>
-    </ResultTable>
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Name</TableCell>
+            <TableCell align="right">Share to pay</TableCell>
+            <TableCell align="right">Pay</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+        {guests.map(guest => (
+            <TableRow
+              key={guest.name}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell className="vegan" component="th" scope="row"
+               sx={{...(guest.isVegan ? { color: 'green' } : { color: 'text.primary' })}}
+              >{guest.name}</TableCell>
+              <TableCell align="right">{formatMoney(guest.order)} BYN</TableCell>
+              <TableCell align="right"><button onClick={(e) => handleClick(e, guest.order, guest.name)}>Pay</button></TableCell>
+            </TableRow>
+        ))}
+        </TableBody>
+        <TableHead>
+          <TableRow>
+            <TableCell>Total order</TableCell>
+            <TableCell align="right">{formatMoney(order.totalOrder)} BYN</TableCell>
+            <TableCell align="right"></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Money to collect</TableCell>
+            <TableCell align="right">{formatMoney(order.moneyToCollect)} BYN</TableCell>
+            <TableCell align="right"></TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Money collected</TableCell>
+            <TableCell align="right">{formatMoney(order.collectedMoney)} BYN</TableCell>
+            <TableCell align="right"></TableCell>
+          </TableRow>
+        </TableHead>
+      </Table>
+    </TableContainer>
   );
 }
 
-const ResultTable = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-  margin: 0 auto 20px;
-`
-const Td = styled.td`
-  border: 1px solid lightgray;
-  padding: 5px;
-`
-const Th = styled.th`
-  border: 1px solid lightgray;
-  padding: 5px;
-`
-
-export default Table;
+export default PayTable;

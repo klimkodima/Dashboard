@@ -1,4 +1,4 @@
-import { Guest, Diet, UIGuest, GuestWithOrder } from "../types";
+import { Guest, Diet, GuestWithOrder } from "../types";
 
 export const setDiet = (guests: Guest[], diets: Diet[]):GuestWithOrder[] => {
   const guestsWithDiet: GuestWithOrder[] = guests.map( (guest: Guest, index: number)=> {
