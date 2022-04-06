@@ -1,17 +1,19 @@
 import { AnyAction } from 'redux';
 
-import { UIGuest, Feedback, FormField } from '../types';
+import { UIGuest, Feedback, FormField, Order } from '../types';
 
 export type State = {
   guests: UIGuest[];
   status: boolean;
   formFields: FormField[];
+  order: Order;
 };
 
 const initialState: State = {
   guests: [],
   status: false,
   formFields: [],
+  order: { totalOrder: 0, moneyToCollect: 0, collectedMoney: 0 },
 };
 
 const reducer = (state = initialState, action: AnyAction) => {

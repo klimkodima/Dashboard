@@ -4,12 +4,9 @@ import Container from '@mui/material/Container';
 
 import FeedBack from "./FeedBack";
 import GuestsList from "./GuestsList";
-import useFetchData from "../../hooks/useFetchData";
 
 const Main = () => {
 
-  useFetchData();
-  
   return (
     <Container component="main" sx={{ minHeight: '96vh' }}>
     <Routes>
