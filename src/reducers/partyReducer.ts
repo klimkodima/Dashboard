@@ -1,9 +1,9 @@
 import { AnyAction } from 'redux';
 
-import { UIGuest, Feedback, FormField, Order } from '../types';
+import { GuestWithOrder, Feedback, FormField, Order } from '../types';
 
 export type State = {
-  guests: UIGuest[];
+  guests: GuestWithOrder[];
   status: boolean;
   formFields: FormField[];
   order: Order;
@@ -24,13 +24,13 @@ const reducer = (state = initialState, action: AnyAction) => {
       return { ...initialState };
     case 'ADD_FEEDBACK':
       return {
-        ...state, guests: state.guests.map((guest: UIGuest) =>
+        ...state, guests: state.guests.map((guest: GuestWithOrder) =>
           guest.id === action.payload.id ? { ...guest, feedback: action.payload.value } : guest
         )
       };
     case 'DELETE_FEEDBACK':
       return {
-        ...state, guests: state.guests.map((guest: UIGuest) =>
+        ...state, guests: state.guests.map((guest: GuestWithOrder) =>
           guest.id === action.payload ? { ...guest, feedback: undefined } : guest
         )
       };
@@ -51,13 +51,26 @@ const reducer = (state = initialState, action: AnyAction) => {
           { ...guest, order: pizzaPaiment + colaPaiment } : { ...guest, order: colaPaiment }),
 
       };
+    case "SET_PAID":
+      return {
+        ...state,
+        order: {
+          ...state.order, moneyToCollect: state.order.moneyToCollect - action.payload.money,
+          collectedMoney: state.order.collectedMoney + action.payload.money
+        },
+        guests: state.guests.map(guest => {
+          if (guest.name === action.payload.name)
+            guest = { ...guest, order: 0 };
+          return guest;
+        })
+      };
     default:
       return state;
   }
 };
 
-export const initializeState = (guests: UIGuest[]) => {
-  return ((dispatch: (arg0: { type: string; payload: UIGuest[]; }) => void) => {
+export const initializeState = (guests: GuestWithOrder[]) => {
+  return ((dispatch: (arg0: { type: string; payload: GuestWithOrder[]; }) => void) => {
     dispatch({
       type: 'LOAD_GUESTS',
       payload: guests
@@ -108,6 +121,18 @@ export const setOrder = (pizzaOrder: number, colaOrder: number, pizzaEaters: num
         pizzaOrder,
         colaOrder,
         pizzaEaters
+      }
+    })
+  });
+};
+
+export const setPaid = (money: number, name: string) => {
+  return ((dispatch: (arg0: { type: string; payload: any; }) => void) => {
+    dispatch({
+      type: "SET_PAID",
+      payload: {
+        money,
+        name
       }
     })
   });

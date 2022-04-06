@@ -6,22 +6,25 @@ import { useDispatch } from 'react-redux';
 
 import { formatMoney } from '../../utils/formatMoney';
 import { GuestWithOrder, Order } from "../../types";
+import { setPaid } from "../../reducers/partyReducer";
 
 
 const Table = () => {
 
-  const guests:GuestWithOrder[] = useAppSelector(
+  const dispatch = useDispatch();
+
+  const guests: GuestWithOrder[] = useAppSelector(
     state => state.party.guests.sort(
       (a: GuestWithOrder, b: GuestWithOrder) => (a.name).localeCompare(b.name)
     ), shallowEqual);
 
- //   const order = { totalOrder: 0, moneyToCollect: 0, collectedMoney: 0 }
-    const order: Order = useAppSelector(
-      state => state.party.order
-      , shallowEqual);
+  //   const order = { totalOrder: 0, moneyToCollect: 0, collectedMoney: 0 }
+  const order: Order = useAppSelector(
+    state => state.party.order
+    , shallowEqual);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, money: number, name: string) => {
-  //  dispatch(setPaid(money, name));
+    dispatch(setPaid(money, name));
     e.currentTarget.setAttribute("disabled", "true");
     e.currentTarget.innerText = 'Paid';
   }
