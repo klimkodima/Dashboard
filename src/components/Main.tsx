@@ -3,6 +3,7 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 
 import GuestsList from "./GuestsList";
+import PayTable from "./PayTable";
 import useFetchData from "../hooks/useFetchData";
 
 const Main = () => {
@@ -18,8 +19,8 @@ const Main = () => {
         <Box component="section" sx={{ height: '30vh', width: '100%', backgroundColor: "green" }}>
 
         </Box>
-        <Box component="section" sx={{ height: '70vh', width: '100%', backgroundColor: "orange" }}>
-
+        <Box component="section" sx={{ height: '70vh', width: '100%' }}>
+          <PayTable/>
         </Box>
       </Box>
     </Container>

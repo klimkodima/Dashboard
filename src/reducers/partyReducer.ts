@@ -21,7 +21,7 @@ const reducer = (state = initialState, action: AnyAction) => {
     case 'LOAD_GUESTS':
       return { ...state, status: true, guests: action.payload };
     case 'CLEAR_STATE':
-      return {  guests: [], status: false, formFields: [] };
+      return { ...initialState };
     case 'ADD_FEEDBACK':
       return {
         ...state, guests: state.guests.map((guest: UIGuest) =>
@@ -35,7 +35,22 @@ const reducer = (state = initialState, action: AnyAction) => {
         )
       };
     case 'ADD_FORM_FIELD':
-      return { ...state, formFields: [action.payload, ...state.formFields]};
+      return { ...state, formFields: [action.payload, ...state.formFields] };
+    case 'SET_ORDER':
+      const totalOrder = action.payload.pizzaOrder + action.payload.colaOrder;
+      const pizzaPaiment = action.payload.pizzaOrder / action.payload.pizzaEaters;
+      const colaPaiment = action.payload.colaOrder / state.guests.length;
+      return {
+        ...state,
+        order: {
+          collectedMoney: 0,
+          totalOrder: totalOrder,
+          moneyToCollect: totalOrder
+        },
+        guests: state.guests.map(guest => guest.eatsPizza === true ?
+          { ...guest, order: pizzaPaiment + colaPaiment } : { ...guest, order: colaPaiment }),
+
+      };
     default:
       return state;
   }
@@ -81,6 +96,19 @@ export const addFeedBackFormField = (field: FormField) => {
     dispatch({
       type: 'ADD_FORM_FIELD',
       payload: field
+    })
+  });
+};
+
+export const setOrder = (pizzaOrder: number, colaOrder: number, pizzaEaters: number) => {
+  return ((dispatch: (arg0: { type: string; payload: any; }) => void) => {
+    dispatch({
+      type: 'SET_ORDER',
+      payload: {
+        pizzaOrder,
+        colaOrder,
+        pizzaEaters
+      }
     })
   });
 };
