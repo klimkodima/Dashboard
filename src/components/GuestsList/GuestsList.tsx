@@ -30,7 +30,7 @@ const GuestsList = () => {
   };
 
   return (
-    <Box component="nav" sx={{ my: 2, mx: 4 }}>
+    <Box component="div" sx={{ my: 2, mx: 4 }}>
       <List component="nav" aria-label="mailbox folders">
         <ListSubheader component="h2" sx={{ my: 3, fontWeight: 'bold', fontSize: '22px' }}>Party Guests</ListSubheader>
         {guests.map(guest => (
