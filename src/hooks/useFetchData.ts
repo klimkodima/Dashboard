@@ -33,14 +33,18 @@ const useFetchApi = () => {
     const { diet } = await getResource("world-diets-book/" + querry);
     dispatch(initializeState(setDiet(party, diet)));
     const typePizza = getPizzaType(diet);
-    void getCurrency('currency');
-    void getColaAccount(`order-cola/${party.length}`);
+    getCurrency('currency');
+    getColaAccount(`order-cola/${party.length}`);
     const pizzaCheck = await getResource(`order/${typePizza}/${pizzaEatersNumber}`);
     setPizzaAccount(pizzaCheck);
   }
-  if (!usedLocalStorage) {
-    fetchNow();
-  }
+
+  useEffect(() => {
+    if (!usedLocalStorage) {
+      fetchNow();
+    }
+  }, [usedLocalStorage]);
+  
   return;
 }
 

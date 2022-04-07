@@ -9,7 +9,6 @@ import { GuestWithOrder } from "../../types";
 
 export default function Statistics() {
     
-
   const { feedbackProgress, payProgress }:{feedbackProgress: number, payProgress: number} = useAppSelector(
     state => {
       const allGuests = state.party.guests.length;

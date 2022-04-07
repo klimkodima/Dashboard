@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux';
 import { formatMoney } from '../../utils/formatMoney';
 import { GuestWithOrder, Order } from "../../types";
 import { setPaid } from "../../reducers/partyReducer";
+import  TableRowView  from "./TableRow";
 
 
 const PayTable = () =>{
@@ -36,11 +37,7 @@ const PayTable = () =>{
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell align="right">Share to pay</TableCell>
-            <TableCell align="right">Pay</TableCell>
-          </TableRow>
+          <TableRowView labels={['Name', 'Share to pay', 'Pay']}/>
         </TableHead>
         <TableBody>
         {guests.map(guest => (
@@ -57,21 +54,9 @@ const PayTable = () =>{
         ))}
         </TableBody>
         <TableHead>
-          <TableRow>
-            <TableCell>Total order</TableCell>
-            <TableCell align="right">{formatMoney(order.totalOrder)} BYN</TableCell>
-            <TableCell align="right"></TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Money to collect</TableCell>
-            <TableCell align="right">{formatMoney(order.moneyToCollect)} BYN</TableCell>
-            <TableCell align="right"></TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Money collected</TableCell>
-            <TableCell align="right">{formatMoney(order.collectedMoney)} BYN</TableCell>
-            <TableCell align="right"></TableCell>
-          </TableRow>
+          <TableRowView labels={['Total order', formatMoney(order.totalOrder) + ' BYN', '']}/>
+          <TableRowView labels={['Money to collect', formatMoney(order.moneyToCollect) + ' BYN', '']}/>
+          <TableRowView labels={['Money collected', formatMoney(order.collectedMoney) + ' BYN', '']}/>
         </TableHead>
       </Table>
     </TableContainer>
