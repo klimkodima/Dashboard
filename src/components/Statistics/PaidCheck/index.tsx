@@ -37,8 +37,7 @@ CircularProgressWithLabel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export default function PaidCheck() {
-  const [progress, setProgress] = React.useState(80);
+export default function PaidCheck({ payProgress }:any) {
 
-  return <CircularProgressWithLabel value={progress} />;
+  return <CircularProgressWithLabel value={payProgress} />;
 }

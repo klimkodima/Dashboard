@@ -20,10 +20,7 @@ const PayTable = () =>{
 
     const dispatch = useDispatch();
 
-  const guests: GuestWithOrder[] = useAppSelector(
-    state => state.party.guests.sort(
-      (a: GuestWithOrder, b: GuestWithOrder) => (a.name).localeCompare(b.name)
-    ), shallowEqual);
+  const guests: GuestWithOrder[] = useAppSelector(state => state.party.guests, shallowEqual);
 
   const order: Order = useAppSelector(
     state => state.party.order

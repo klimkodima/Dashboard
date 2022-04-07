@@ -27,13 +27,11 @@ LinearProgressWithLabel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export default function FillFeedBacks() {
-  const [progress, setProgress] = React.useState(90);
-
-  
+export default function FillFeedBacks({ feedbackProgress }: any) {
+ 
   return (
     <Box sx={{m:2, width: '80%' }}>
-      <LinearProgressWithLabel value={progress} />
+      <LinearProgressWithLabel value={feedbackProgress} />
     </Box>
   );
 }
