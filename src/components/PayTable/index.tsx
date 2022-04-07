@@ -15,6 +15,7 @@ import { formatMoney } from '../../utils/formatMoney';
 import { GuestWithOrder, Order } from "../../types";
 import { setPaid } from "../../reducers/partyReducer";
 import  TableRowView  from "./TableRow";
+import TableFilter  from "./TableFilter";
 
 
 const PayTable = () =>{
@@ -34,7 +35,8 @@ const PayTable = () =>{
   }
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={{ pt: 2 }}>
+      <TableFilter/>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRowView labels={['Name', 'Share to pay', 'Pay']}/>

@@ -5,6 +5,8 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 
 import partyReducer from './reducers/partyReducer';
+import tableFilterReducer from './reducers/tableFilterReducer';
+import listFilterReducer from './reducers/listFilterReducer';
 
 const persistConfig = {
   key: 'root',
@@ -13,6 +15,8 @@ const persistConfig = {
 
 const reducers = combineReducers({
     party: partyReducer,
+    listFilter: listFilterReducer,
+    tableFilter: tableFilterReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig,  reducers);

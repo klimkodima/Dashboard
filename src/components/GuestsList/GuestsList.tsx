@@ -4,9 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { List, ListItem, ListItemText, ListSubheader, Box, Button } from '@mui/material';
 
-import { UIGuest } from "../../types";
+import ListFilter  from "./ListFilter";
 import { clearState } from "../../reducers/partyReducer";
 import { useAppSelector } from '../../hooks/hooks';
+import { UIGuest } from "../../types";
 
 const GuestsList = () => {
 
@@ -33,6 +34,7 @@ const GuestsList = () => {
     <Box component="div" sx={{ my: 2, mx: 4 }}>
       <List component="nav" aria-label="mailbox folders">
         <ListSubheader component="h2" sx={{ my: 3, fontWeight: 'bold', fontSize: '22px' }}>Party Guests</ListSubheader>
+        <ListFilter/>
         {guests.map(guest => (
           <ListItem button divider key={guest.id} sx={{
             display: 'flex',
