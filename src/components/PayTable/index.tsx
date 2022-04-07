@@ -98,7 +98,7 @@ const PayTable = () => {
           </TableRow>
         </TableHead>
       </Table>
-      {showPopUp && <PopUpTable data={currentData} topPosition={topPosition} />}
+      {showPopUp && <PopUpTable data={currentData} topPosition={topPosition}/>}
     </TableContainer>
   );
 }
