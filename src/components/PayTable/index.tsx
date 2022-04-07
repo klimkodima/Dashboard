@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -15,8 +15,27 @@ import { formatMoney } from '../../utils/formatMoney';
 import { GuestWithOrder, Order } from "../../types";
 import { setPaid } from "../../reducers/partyReducer";
 
+import { PopUpTable } from '../PopUp/PopUpTable';
 
-const PayTable = () =>{
+
+const PayTable = () => {
+  const [showPopUp, setShowPopUp] = useState(false);
+  const [currentData, setCurrentData] = useState({});
+  const [topPosition, setTopPosition] = useState(0);
+  const [leftPosition, setLeftPosition] = useState(0);
+
+  const mouseEnterHandler = (e: any, data: any) => {
+    const { clientY, clientX }: { clientY: any, clientX: any } = e;
+    setShowPopUp(true);
+    setCurrentData(data);
+    setTopPosition(clientY);
+    setLeftPosition(clientX);
+  }
+
+  const mouseLeaveHandler = () => {
+    setShowPopUp(false);
+    setCurrentData({});
+  } 
 
     const dispatch = useDispatch();
 
@@ -43,17 +62,22 @@ const PayTable = () =>{
           </TableRow>
         </TableHead>
         <TableBody>
-        {guests.map(guest => (
-            <TableRow
+          {guests.map(guest => (
+          <>
+              <TableRow 
               key={guest.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }} 
+                onClick={() => console.log(`${guest.name}`)}
+                onMouseEnter={(e) => { mouseEnterHandler(e, guest)}}
+                onMouseLeave={() => { setShowPopUp(false); setCurrentData({})}} 
+                >
               <TableCell className="vegan" component="th" scope="row"
                sx={{...(guest.isVegan ? { color: 'green' } : { color: 'text.primary' })}}
               >{guest.name}</TableCell>
               <TableCell align="right">{formatMoney(guest.order)} BYN</TableCell>
               <TableCell align="right"><button onClick={(e) => handleClick(e, guest.order, guest.name)}>Pay</button></TableCell>
-            </TableRow>
+              </TableRow>
+          </>
         ))}
         </TableBody>
         <TableHead>
@@ -74,6 +98,7 @@ const PayTable = () =>{
           </TableRow>
         </TableHead>
       </Table>
+      {showPopUp && <PopUpTable data={currentData} topPosition={topPosition} />}
     </TableContainer>
   );
 }
