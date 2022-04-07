@@ -3,7 +3,7 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 
 import GuestsList from "./GuestsList";
-import Statistics from "./Statistics";
+import { Statistics } from "./StatisticsContent/Statistics";
 import PayTable from "./PayTable";
 import useFetchData from "../hooks/useFetchData";
 
