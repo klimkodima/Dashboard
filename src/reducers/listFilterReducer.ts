@@ -19,7 +19,7 @@ const reducer = (state = initialState, action: AnyAction) => {
   }
 };
 
-export const setListFilter = (filter: ListFilter) => 
+export const setFilter = (filter: ListFilter) => 
   ((dispatch: (arg0: { type: string; payload: any; }) => void) => {
     dispatch({
       type: "SET_LIST_FILTER",

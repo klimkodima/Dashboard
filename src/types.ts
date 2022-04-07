@@ -63,5 +63,7 @@ export enum ListFilter {
 export enum TableFilter {
     All = 'ALL',
     Meat = "MEAT",
-    Vegans ='VEGANS'
+    Vegans ='VEGANS',
+    Paid = 'PAID',
+    NotPaid = 'NOT_PAID'
 }

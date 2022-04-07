@@ -18,7 +18,7 @@ const reducer = (state = initialState, action: AnyAction) => {
   }
 };
 
-export const setTableFilter = (filter: TableFilter) => 
+export const setFilter = (filter: TableFilter) => 
   ((dispatch: (arg0: { type: string; payload: any; }) => void) => {
     dispatch({
       type: "SET_TABLE_FILTER",

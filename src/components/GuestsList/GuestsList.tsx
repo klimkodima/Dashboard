@@ -1,23 +1,31 @@
 import React from "react";
-import { shallowEqual } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { List, ListItem, ListItemText, ListSubheader, Box, Button } from '@mui/material';
+import _ from 'underscore';
 
-import ListFilter  from "./ListFilter";
+import ListSelect from "./ListSelect";
 import { clearState } from "../../reducers/partyReducer";
 import { useAppSelector } from '../../hooks/hooks';
-import { UIGuest } from "../../types";
+import { UIGuest, ListFilter, GuestWithOrder } from "../../types";
 
 const GuestsList = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const guests:UIGuest[] = useAppSelector(
-    state => state.party.guests.sort(
-      (a: UIGuest, b: UIGuest) => (a.name).localeCompare(b.name)
-    ), shallowEqual);
+  const guests: UIGuest[] = useAppSelector(state => {
+    switch (state.listFilter.filter) {
+      case ListFilter.Active:
+        return state.party.guests.filter((guest: GuestWithOrder) => !!guest.feedback);
+      case ListFilter.Vegans:
+        return state.party.guests.filter((guest: GuestWithOrder) => guest.isVegan === true);
+      case ListFilter.Meat:
+        return state.party.guests.filter((guest: GuestWithOrder) => guest.eatsPizza === true);
+      default:
+        return state.party.guests;
+    }
+  }, _.isEqual);
 
   const handleBtnClick = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
@@ -34,8 +42,10 @@ const GuestsList = () => {
     <Box component="div" sx={{ my: 2, mx: 4 }}>
       <List component="nav" aria-label="mailbox folders">
         <ListSubheader component="h2" sx={{ my: 3, fontWeight: 'bold', fontSize: '22px' }}>Party Guests</ListSubheader>
-        <ListFilter/>
-        {guests.map(guest => (
+        <ListSelect />
+        { guests
+        .sort((a: UIGuest, b: UIGuest) => (a.name).localeCompare(b.name))
+        .map(guest => (
           <ListItem button divider key={guest.id} sx={{
             display: 'flex',
             justifyContent: 'center',

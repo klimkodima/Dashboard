@@ -1,17 +1,22 @@
 import  React, {useState} from 'react';
+import { useDispatch } from 'react-redux';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { ListFilter } from './../../types';
+
+import { setFilter } from "../../reducers/listFilterReducer";
+import { ListFilter } from '../../types';
 
 
-export default function BasicSelect() {
-  const [listFilter, setTableFilter] = useState('');
+export default function ListSelect() {
+  const [listFilter, setListFilter] = useState('');
+  const dispatch = useDispatch();
 
   const handleChange = (event: any) => {
-    setTableFilter(event.target.value);
+    setListFilter(event.target.value);
+    dispatch(setFilter(event.target.value));
   };
 
   return (
