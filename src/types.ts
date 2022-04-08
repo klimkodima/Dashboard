@@ -52,3 +52,18 @@ export interface FormField {
     type: string;
     name: string;
 };
+
+export enum ListFilter {
+    Active = 'ACTIVE',
+    All = 'ALL',
+    Meat = "MEAT",
+    Vegans ='VEGANS'
+};
+
+export enum TableFilter {
+    All = 'ALL',
+    Meat = "MEAT",
+    Vegans ='VEGANS',
+    Paid = 'PAID',
+    NotPaid = 'NOT_PAID'
+}

@@ -16,6 +16,8 @@ import { UIGuest, Feedback, FormField } from '../../../types';
 import { formatName } from '../../../utils/formatName';
 import { addFeedback } from '../../../reducers/partyReducer';
 import AddedFields from './AddedFields';
+import { useGuestContext } from '../../../contexts/GuestContext';
+
 
 const initialValues = {
   phone: '',
@@ -42,13 +44,14 @@ const FeedBackForm = ({ guest, showFieldForm }: { guest: UIGuest, showFieldForm:
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { setGuest, } = useGuestContext();
 
   const formFields: FormField[] = useAppSelector(state => state.party.formFields);
 
   const handleSubmit = (values: Feedback) => {
     const feedBack = { ...values, rating: Number(values.rating) };
     dispatch(addFeedback(feedBack, guest.id));
-    navigate('/');
+    setGuest(guest);
   };
 
   const handleCancel = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

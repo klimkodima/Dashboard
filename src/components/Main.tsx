@@ -2,6 +2,7 @@ import React from "react";
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 
+//import GuestsList from "./GuestsList/GuestsL";
 import GuestsList from "./GuestsList";
 import Statistics from "./Statistics";
 import PayTable from "./PayTable";
