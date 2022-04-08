@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import Table from '@mui/material/Table';
@@ -9,6 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+import Popper from "../generics/Popper";
 import TableRowView from "./TableRow";
 import TableSelect from "./TableSelect";
 import { useAppSelector } from '../../hooks/hooks';
@@ -19,6 +20,10 @@ import { GuestWithOrder, Order, TableFilter, } from "../../types";
 const PayTable = () => {
 
   const dispatch = useDispatch();
+
+  const [open, setOpen] = useState(false);
+  const [poppupData, setPoppupData] = useState({});
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const guests: GuestWithOrder[] = useAppSelector(state => {
     switch (state.tableFilter.filter) {
@@ -45,13 +50,11 @@ const PayTable = () => {
     e.currentTarget.innerText = 'Paid';
   }
 
-  const handleMouseEnter = (e:any)  => {
-    console.log(0)
+  const handleMouseEnter = (e:any, guest: any)  => {
+    setOpen(true);
+    setPoppupData(guest);
   };
 
-  const handleMouseLeave = (e:any)  => {
-    console.log(1)
-   };
 
   return (
     <TableContainer component={Paper} sx={{ pt: 2 }}>
@@ -61,11 +64,12 @@ const PayTable = () => {
           <TableRowView labels={['Name', 'Share to pay', 'Pay']} />
         </TableHead>
         <TableBody>
+        <Popper open={open} guest={poppupData} anchorEl={anchorEl}/>
           {guests.map(guest => (
             <TableRow
               hover
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
+              onMouseEnter={(e) => { handleMouseEnter(e, guest)}}
+              onMouseLeave={() => { setOpen(false); setPoppupData({})}}
               key={guest.name}
               sx={{  active:{ backgroundColor: "Highlight"}, '&:last-child td, &:last-child th': { border: 0 } }}
             >

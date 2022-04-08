@@ -1,17 +1,13 @@
-import * as React from 'react';
+import  React from 'react';
 import Box from '@mui/material/Box';
 import Popper from '@mui/material/Popper';
 import Fade from '@mui/material/Fade';
 
-export default function TransitionsPopper() {
-    const [open, setOpen] = React.useState(false);
-    const [anchorEl, setAnchorEl] = React.useState(null);
+import PopperInfo from "./PopperInfo";
+import { GuestWithOrder } from "../../types";
 
-    const handleClick = (event: any) => {
-        setAnchorEl(event.currentTarget);
-        setOpen((previousOpen) => !previousOpen);
-    };
-
+export default function TransitionsPopper({ open, anchorEl, guest }:{open: any, anchorEl: any, guest: any }) {
+  
     const canBeOpen = open && Boolean(anchorEl);
     const id = canBeOpen ? 'transition-popper' : undefined;
 
@@ -20,7 +16,7 @@ export default function TransitionsPopper() {
             {({ TransitionProps }) => (
                 <Fade {...TransitionProps} timeout={350}>
                     <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>
-                        The content of the Popper.
+                        <PopperInfo guest={guest}/>
                     </Box>
                 </Fade>
             )}

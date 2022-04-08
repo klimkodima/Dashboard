@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { List, ListItem, ListItemText, ListSubheader, Box, Button } from '@mui/material';
 import _ from 'underscore';
 
 import ListSelect from "./ListSelect";
+import Popper from "../generics/Popper";
 import { clearState } from "../../reducers/partyReducer";
 import { useAppSelector } from '../../hooks/hooks';
 import { UIGuest, ListFilter, GuestWithOrder } from "../../types";
@@ -13,6 +14,10 @@ const GuestsList = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [open, setOpen] = useState(false);
+  const [poppupData, setPoppupData] = useState({});
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const guests: UIGuest[] = useAppSelector(state => {
     switch (state.listFilter.filter) {
@@ -38,25 +43,23 @@ const GuestsList = () => {
     navigate(`/feedback/${id}`);
   };
 
-  const handleMouseEnter = (e:any)  => {
-    console.log(0)
-  };
-
-  const handleMouseLeave = (e:any)  => {
-   console.log(1)
+  const handleMouseEnter = (e:any, guest: any)  => {
+    setOpen(true);
+    setPoppupData(guest);
   };
 
   return (
     <Box component="div" sx={{ my: 2, mx: 4 }}>
       <List component="nav" aria-label="mailbox folders">
         <ListSubheader component="h2" sx={{ my: 3, fontWeight: 'bold', fontSize: '22px' }}>Party Guests</ListSubheader>
+        <Popper open={open} guest={poppupData} anchorEl={anchorEl}/>
         <ListSelect />
         { guests
         .sort((a: UIGuest, b: UIGuest) => (a.name).localeCompare(b.name))
         .map(guest => (
           <ListItem
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+          onMouseEnter={(e) => { handleMouseEnter(e, guest)}}
+          onMouseLeave={() => { setOpen(false); setPoppupData({})}}
           button divider key={guest.id} sx={{
             display: 'flex',
             justifyContent: 'center',
