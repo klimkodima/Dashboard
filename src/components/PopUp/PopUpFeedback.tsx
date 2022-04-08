@@ -5,7 +5,7 @@ export const PopUpFeedback = ({ data }: any) =>
   if (!Object.keys(data).includes('feedback')) {
     return (
       <div style={{ position: 'fixed', top: `50%`, left: `50%`, backgroundColor: 'rgba(164,226,208, .7)', padding: '20px', borderRadius: '10px' }}>
-        <p>User doesn't leave feedback</p>
+        <p>Guest hasn't left feedback yet</p>
     </div>
     )
   }
