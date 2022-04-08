@@ -45,6 +45,14 @@ const PayTable = () => {
     e.currentTarget.innerText = 'Paid';
   }
 
+  const handleMouseEnter = (e:any)  => {
+    console.log(0)
+  };
+
+  const handleMouseLeave = (e:any)  => {
+    console.log(1)
+   };
+
   return (
     <TableContainer component={Paper} sx={{ pt: 2 }}>
       <TableSelect />
@@ -55,8 +63,11 @@ const PayTable = () => {
         <TableBody>
           {guests.map(guest => (
             <TableRow
+              hover
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
               key={guest.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              sx={{  active:{ backgroundColor: "Highlight"}, '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell className="vegan" component="th" scope="row"
                 sx={{ ...(guest.isVegan ? { color: 'green' } : { color: 'text.primary' }) }}

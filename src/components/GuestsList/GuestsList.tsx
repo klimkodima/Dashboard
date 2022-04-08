@@ -38,6 +38,14 @@ const GuestsList = () => {
     navigate(`/feedback/${id}`);
   };
 
+  const handleMouseEnter = (e:any)  => {
+    console.log(0)
+  };
+
+  const handleMouseLeave = (e:any)  => {
+   console.log(1)
+  };
+
   return (
     <Box component="div" sx={{ my: 2, mx: 4 }}>
       <List component="nav" aria-label="mailbox folders">
@@ -46,7 +54,10 @@ const GuestsList = () => {
         { guests
         .sort((a: UIGuest, b: UIGuest) => (a.name).localeCompare(b.name))
         .map(guest => (
-          <ListItem button divider key={guest.id} sx={{
+          <ListItem
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          button divider key={guest.id} sx={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
