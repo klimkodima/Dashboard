@@ -9,6 +9,13 @@ const PopperInfo = ({ guest }: any) =>
         <p>Eats Pizza: {String(guest.eatsPizza)}</p>
         <p>Vegan: {String(guest.isVegan)}</p>
         <p>Order: {String(guest.order)}</p>
+        {
+        guest.feedback && (
+        <>
+        <p>Phone: {String(guest.feedback.phone)}</p>
+        <p>Comment: {String(guest.feedback.comment)}</p>
+        </>  
+        )}
       </div>
     )
 }
