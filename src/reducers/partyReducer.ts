@@ -60,7 +60,7 @@ const reducer = (state = initialState, action: AnyAction) => {
         },
         guests: state.guests.map(guest => {
           if (guest.name === action.payload.name)
-            guest = { ...guest, order: 0 };
+            guest = { ...guest, paidOrder: guest.order, order: 0 };
           return guest;
         })
       };

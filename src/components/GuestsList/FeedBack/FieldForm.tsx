@@ -10,7 +10,7 @@ import { FormField } from "../../../types";
 
 interface Props {
   onClose: () => void;
-  handleSubmit: (values: FormField) =>  void;
+  handleSubmit: (values: FormField) => void;
 }
 
 const initialValues = {
@@ -19,7 +19,7 @@ const initialValues = {
   name: ''
 };
 
-const FieldForm = ({handleSubmit, onClose}: Props) => {
+const FieldForm = ({ handleSubmit, onClose }: Props) => {
 
   const formik = useFormik({
     initialValues,
@@ -51,18 +51,18 @@ const FieldForm = ({handleSubmit, onClose}: Props) => {
             <Typography component="label" variant="overline" color="text.primary" sx={{ fontWeight: 'bold' }}>
               Id
             </Typography>
-            <OutlinedInput id="inputId" name="id" 
+            <OutlinedInput id="inputId" name="id"
               sx={{ backgroundColor: "white" }}
               value={formik.values.id}
-            onChange={formik.handleChange}
-            placeholder=" Enter id"
+              onChange={formik.handleChange}
+              placeholder=" Enter id"
             />
           </FormControl>
           <FormControl>
             <Typography component="label" variant="overline" color="text.primary" sx={{ fontWeight: 'bold' }}>
               Type
             </Typography>
-            <OutlinedInput id="inputType" name="type" 
+            <OutlinedInput id="inputType" name="type"
               sx={{ backgroundColor: "white" }}
               value={formik.values.type}
               onChange={formik.handleChange}
@@ -73,42 +73,41 @@ const FieldForm = ({handleSubmit, onClose}: Props) => {
             <Typography component="label" variant="overline" color="text.primary" sx={{ fontWeight: 'bold' }}>
               Name
             </Typography>
-            <OutlinedInput id="inputName" name="name" 
+            <OutlinedInput id="inputName" name="name"
               sx={{ backgroundColor: "white" }}
               value={formik.values.name}
               onChange={formik.handleChange}
               placeholder=" Enter name"
             />
           </FormControl>
-            <Button
-              fullWidth
-              variant="contained"
-              sx={{
-                mt: 3, mb: 2, textTransform: 'uppercase', background: 'orange',
-                '&:hover': {
-                  opacity: '0.8',
-                  backgroundColor: 'orange',
-                },
-              }}
-              onClick={onClose}>
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              data-testid="saveButton"
-              sx={{
-                mt: 3, mb: 2, textTransform: 'uppercase', background: 'green',
-                '&:hover': {
-                  opacity: '0.8',
-                  backgroundColor: 'green',
-                },
-              }}
-            >
-              Save
-            </Button>
-         
+          <Button
+            fullWidth
+            variant="contained"
+            sx={{
+              mt: 3, mb: 2, textTransform: 'uppercase', background: 'orange',
+              '&:hover': {
+                opacity: '0.8',
+                backgroundColor: 'orange',
+              },
+            }}
+            onClick={onClose}>
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            data-testid="saveButton"
+            sx={{
+              mt: 3, mb: 2, textTransform: 'uppercase', background: 'green',
+              '&:hover': {
+                opacity: '0.8',
+                backgroundColor: 'green',
+              },
+            }}
+          >
+            Save
+          </Button>
         </Box>
       </Box>
     </Box>

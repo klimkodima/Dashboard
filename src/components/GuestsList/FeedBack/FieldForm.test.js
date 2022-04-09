@@ -15,7 +15,7 @@ describe('<FieldForm/>', () => {
 
   test('@testing-library/user-event when field is created, callback has correct data', () => {
 
-    render(<FieldForm/>)
+    render(<FieldForm />)
 
     const id = screen.getByPlaceholderText('Enter id')
     const type = screen.getByPlaceholderText('Enter type')
@@ -26,27 +26,27 @@ describe('<FieldForm/>', () => {
     userEvent.type(name, newField.name)
     userEvent.click(saveButton)
 
-     expect(id.value).toBe(newField.id)
-     expect(type.value).toBe(newField.type)
-     expect(name.value).toBe(newField.name)
+    expect(id.value).toBe(newField.id)
+    expect(type.value).toBe(newField.type)
+    expect(name.value).toBe(newField.name)
   })
 
   test('@testing-library/react when field is created, callback has correct data', () => {
 
-    render(<FieldForm/>)
+    render(<FieldForm />)
 
     const id = screen.getByPlaceholderText('Enter id')
     const type = screen.getByPlaceholderText('Enter type')
     const name = screen.getByPlaceholderText('Enter name')
     const sendButton = screen.getByText('Save')
 
-     fireEvent.change(id, { target: { value: newField.id } })
-     fireEvent.change(type, { target: { value: newField.type } })
-     fireEvent.change(name, { target: { value: newField.name } })
-     fireEvent.click(sendButton)
- 
-     expect(id.value).toBe(newField.id)
-     expect(type.value).toBe(newField.type)
-     expect(name.value).toBe(newField.name)
+    fireEvent.change(id, { target: { value: newField.id } })
+    fireEvent.change(type, { target: { value: newField.type } })
+    fireEvent.change(name, { target: { value: newField.name } })
+    fireEvent.click(sendButton)
+
+    expect(id.value).toBe(newField.id)
+    expect(type.value).toBe(newField.type)
+    expect(name.value).toBe(newField.name)
   })
 })

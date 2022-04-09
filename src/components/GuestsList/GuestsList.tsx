@@ -4,9 +4,10 @@ import { useDispatch } from 'react-redux';
 import { List, ListItem, ListItemText, ListSubheader, Box, Button } from '@mui/material';
 import _ from 'underscore';
 
-import ListSelect from "./ListSelect";
 import Popper from "../generics/Popper";
+import Select from "../generics/Select";
 import { clearState } from "../../reducers/partyReducer";
+import { setFilter } from "../../reducers/listFilterReducer";
 import { useAppSelector } from '../../hooks/hooks';
 import { UIGuest, ListFilter, GuestWithOrder } from "../../types";
 
@@ -25,7 +26,9 @@ const GuestsList = () => {
         return state.party.guests.filter((guest: GuestWithOrder) => !!guest.feedback);
       case ListFilter.Vegans:
         return state.party.guests.filter((guest: GuestWithOrder) => guest.isVegan === true);
-      case ListFilter.Meat:
+        case ListFilter.Meat:
+        return state.party.guests.filter((guest: GuestWithOrder) => guest.isVegan === false);
+      case ListFilter.EatPizza:
         return state.party.guests.filter((guest: GuestWithOrder) => guest.eatsPizza === true);
       default:
         return state.party.guests;
@@ -43,9 +46,16 @@ const GuestsList = () => {
     navigate(`/feedback/${id}`);
   };
 
-  const handleMouseEnter = (e:any, guest: any)  => {
+  const handleMouseEnter = (event:any, guest: any)  => {
     setOpen(true);
     setPoppupData(guest);
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMouseLeave = ()  => {
+    setOpen(false);
+    setPoppupData({});
+    setAnchorEl(null);
   };
 
   return (
@@ -53,13 +63,13 @@ const GuestsList = () => {
       <List component="nav" aria-label="mailbox folders">
         <ListSubheader component="h2" sx={{ my: 3, fontWeight: 'bold', fontSize: '22px' }}>Party Guests</ListSubheader>
         <Popper open={open} guest={poppupData} anchorEl={anchorEl}/>
-        <ListSelect />
+        <Select items={ListFilter} filter={setFilter} defaultValue={ListFilter.All}/>
         { guests
         .sort((a: UIGuest, b: UIGuest) => (a.name).localeCompare(b.name))
         .map(guest => (
           <ListItem
           onMouseEnter={(e) => { handleMouseEnter(e, guest)}}
-          onMouseLeave={() => { setOpen(false); setPoppupData({})}}
+          onMouseLeave={handleMouseLeave}
           button divider key={guest.id} sx={{
             display: 'flex',
             justifyContent: 'center',

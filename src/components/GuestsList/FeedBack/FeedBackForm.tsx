@@ -39,7 +39,6 @@ const validationSchema = Yup.object().shape({
 
 const FeedBackForm = ({ guest, showFieldForm }: { guest: UIGuest, showFieldForm: () => void }) => {
 
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -99,7 +98,7 @@ const FeedBackForm = ({ guest, showFieldForm }: { guest: UIGuest, showFieldForm:
             display: 'flex',
             flexDirection: 'column'
           }} >
-          <AddedFields formFields={formFields}  handleChange={formik.handleChange}/>
+          <AddedFields formFields={formFields} handleChange={formik.handleChange} />
           <Typography variant="overline" color="text.primary" gutterBottom sx={{ fontWeight: "bold" }}>
             Name
           </Typography>

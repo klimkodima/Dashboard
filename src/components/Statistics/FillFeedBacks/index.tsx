@@ -19,9 +19,9 @@ function LinearProgressWithLabel(props: any) {
 }
 
 export default function FillFeedBacks({ feedbackProgress }: any) {
- 
+
   return (
-    <Box sx={{m:2, width: '80%' }}>
+    <Box sx={{ m: 2, width: '80%' }}>
       <LinearProgressWithLabel value={feedbackProgress} />
     </Box>
   );

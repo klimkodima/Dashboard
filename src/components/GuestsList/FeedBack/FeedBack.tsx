@@ -33,29 +33,29 @@ const FeedBack = ({ guest }: { guest: UIGuest }) => {
           justifyContent: 'space-between',
           alignItems: 'center'
         }}>
-          <Typography  variant="overline" color="text.primary" gutterBottom sx={{fontWeight: 'bold'}}>
+          <Typography variant="overline" color="text.primary" gutterBottom sx={{ fontWeight: 'bold' }}>
             Name
           </Typography>
-          <CardActions  sx={{ paddingTop: '0px'}}>
-            <Button size="small" color="error" sx={{ textTransform: 'lowercase'}}
-             onClick={handleClick}>delete</Button>
+          <CardActions sx={{ paddingTop: '0px' }}>
+            <Button size="small" color="error" sx={{ textTransform: 'lowercase' }}
+              onClick={handleClick}>delete</Button>
           </CardActions>
         </Box>
-        <Typography variant="body1"  color="text.secondary" sx={{fontSize: '20px'}}>
-        {formatName(guest.name)}
+        <Typography variant="body1" color="text.secondary" sx={{ fontSize: '20px' }}>
+          {formatName(guest.name)}
         </Typography>
-        <Rating  name="read-only" value={guest?.feedback?.rating} readOnly sx={{ my:1, backgroundColor: "white" }}/>
-        <br/>
-        <Typography variant="overline" color="text.primary" sx={{fontWeight: 'bold'}}>
+        <Rating name="read-only" value={guest?.feedback?.rating} readOnly sx={{ my: 1, backgroundColor: "white" }} />
+        <br />
+        <Typography variant="overline" color="text.primary" sx={{ fontWeight: 'bold' }}>
           Phone
         </Typography>
-        <Typography variant="body1" color="text.secondary" sx={{fontSize: '20px'}}>
+        <Typography variant="body1" color="text.secondary" sx={{ fontSize: '20px' }}>
           {guest?.feedback?.phone}
         </Typography>
-        <Typography variant="overline" color="text.primary" sx={{ fontWeight: 'bold'}}>
+        <Typography variant="overline" color="text.primary" sx={{ fontWeight: 'bold' }}>
           Comment
         </Typography>
-        <Typography  variant="body1" color="text.secondary" sx={{fontSize: '20px'}}>
+        <Typography variant="body1" color="text.secondary" sx={{ fontSize: '20px' }}>
           {guest?.feedback?.comment}
         </Typography>
       </CardContent>

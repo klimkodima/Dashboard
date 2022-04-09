@@ -10,9 +10,10 @@ export interface UIGuest extends Guest  {
 };
 export interface GuestWithOrder extends   UIGuest  {
     order: number;
+    paidOrder?: number;
 }
 
-export interface Currency {
+export interface CurrencyType {
     USD: string;
     BYN: string;
     EUR: string;
@@ -57,7 +58,8 @@ export enum ListFilter {
     Active = 'ACTIVE',
     All = 'ALL',
     Meat = "MEAT",
-    Vegans ='VEGANS'
+    Vegans = 'VEGANS',
+    EatPizza = 'EAT_PIZZA'
 };
 
 export enum TableFilter {
@@ -65,5 +67,12 @@ export enum TableFilter {
     Meat = "MEAT",
     Vegans ='VEGANS',
     Paid = 'PAID',
+    EatPizza = 'EAT_PIZZA',
     NotPaid = 'NOT_PAID'
-}
+};
+
+export enum Currency {
+    USD = 'USD',
+    BYN = "BYN",
+    EURO ='EUR'   
+};
