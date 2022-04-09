@@ -124,15 +124,15 @@ export const setOrder = (pizzaOrder: number, colaOrder: number, pizzaEaters: num
 });
 
 
-export const setPaid = (money: number, name: string) => 
-  ((dispatch: (arg0: { type: string; payload: any; }) => void) => {
-    dispatch({
-      type: "SET_PAID",
-      payload: {
-        money,
-        name
-      }
-    })
-  });
+export const setPaid = (money: number, name: string) =>
+((dispatch: (arg0: { type: string; payload: any; }) => void) => {
+  dispatch({
+    type: "SET_PAID",
+    payload: {
+      money,
+      name
+    }
+  })
+});
 
 export default reducer;

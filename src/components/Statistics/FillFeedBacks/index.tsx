@@ -1,24 +1,23 @@
-import * as React from 'react';
 import LinearProgress from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-function LinearProgressWithLabel(props: any) {
+const LinearProgressWithLabel = ({ value }: { value: number }) => {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
       <Box sx={{ width: '100%', mr: 1 }}>
-        <LinearProgress variant="determinate" {...props} />
+        <LinearProgress variant="determinate" />
       </Box>
       <Box sx={{ minWidth: 35 }}>
-        <Typography variant="body2" color="text.secondary">{`${props.value && Math.round(
-          props.value,
+        <Typography variant="body2" color="text.secondary">{`${value && Math.round(
+          value,
         )}%`}</Typography>
       </Box>
     </Box>
   );
 }
 
-export default function FillFeedBacks({ feedbackProgress }: any) {
+const FillFeedBacks = ({ feedbackProgress }: { feedbackProgress: number }) => {
 
   return (
     <Box sx={{ m: 2, width: '80%' }}>
@@ -26,3 +25,5 @@ export default function FillFeedBacks({ feedbackProgress }: any) {
     </Box>
   );
 }
+
+export default FillFeedBacks;

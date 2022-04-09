@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -6,7 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
-export default function DropDownSelect({ items, filter, defaultValue }: any) {
+const DropDownSelect = ({ items, filter, defaultValue }: any) => {
     const [listFilter, setListFilter] = useState(defaultValue);
     const dispatch = useDispatch();
 
@@ -18,10 +18,9 @@ export default function DropDownSelect({ items, filter, defaultValue }: any) {
     return (
         <Box sx={{ width: 200, m: 2 }}>
             <FormControl fullWidth>
-                <InputLabel id="listFilter">Filter</InputLabel>
+                <InputLabel >Filter</InputLabel>
                 <Select
                     labelId="Filter-select-label"
-                    id="Filter-select"
                     value={listFilter}
                     label="Filter"
                     onChange={handleChange}
@@ -32,3 +31,5 @@ export default function DropDownSelect({ items, filter, defaultValue }: any) {
         </Box>
     );
 };
+
+export default DropDownSelect;

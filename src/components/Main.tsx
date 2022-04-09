@@ -1,4 +1,3 @@
-import React from "react";
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 
@@ -19,10 +18,10 @@ const Main = () => {
       </Box>
       <Box component="div" sx={{ width: 2 / 3 }}>
         <Box component="section" sx={{ my: 2, mx: 4, height: '30vh', width: '100%' }}>
-          <Statistics/>
+          <Statistics />
         </Box>
         <Box component="section" sx={{ height: '70vh', width: '100%' }}>
-          <PayTable/>
+          <PayTable />
         </Box>
       </Box>
     </Container>

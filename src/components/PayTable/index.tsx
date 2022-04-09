@@ -58,7 +58,7 @@ const PayTable = () => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMouseLeave = ()  => {
+  const handleMouseLeave = () => {
     setOpen(false);
     setPoppupData({});
     setAnchorEl(null);
@@ -66,13 +66,13 @@ const PayTable = () => {
 
   return (
     <TableContainer component={Paper} sx={{ pt: 2 }}>
-      <Select items={TableFilter} filter={setFilter} defaultValue={TableFilter.All} />
+      <Select items={TableFilter} filter={setFilter} defaultValue={TableFilter.All}/>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRowView labels={['Name', 'Share to pay', 'Pay']} />
         </TableHead>
         <TableBody>
-          <Popper open={open} guest={poppupData} anchorEl={anchorEl}/>
+          <Popper open={open} guest={poppupData} anchorEl={anchorEl} />
           {guests.map(guest => (
             <TableRow
               hover

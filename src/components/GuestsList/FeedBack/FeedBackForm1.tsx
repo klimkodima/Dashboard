@@ -1,4 +1,3 @@
-import React from 'react';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import Box from '@mui/material/Box';

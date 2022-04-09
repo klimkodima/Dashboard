@@ -12,10 +12,10 @@ import * as Yup from 'yup';
 import { useAppSelector } from '../../../hooks/hooks';
 import { useDispatch } from 'react-redux';
 
-import { UIGuest, Feedback, FormField } from '../../../types';
+import AddedFields from './AddedFields';
 import { formatName } from '../../../utils/formatName';
 import { addFeedback } from '../../../reducers/partyReducer';
-import AddedFields from './AddedFields';
+import { UIGuest, Feedback, FormField } from '../../../types';
 
 const initialValues = {
   phone: '',

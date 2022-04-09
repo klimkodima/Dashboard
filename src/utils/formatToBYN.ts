@@ -11,4 +11,4 @@ export const formatToBYN = (price: string | undefined, currency: CurrencyType | 
         default:
             return parseFloat(arrayPrise[0]);
     }
-}
+};

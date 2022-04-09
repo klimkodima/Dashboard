@@ -10,21 +10,20 @@ import listFilterReducer from './reducers/listFilterReducer';
 
 const persistConfig = {
   key: 'root',
-  storage,
+  storage
 };
 
 const reducers = combineReducers({
-    party: partyReducer,
-    listFilter: listFilterReducer,
-    tableFilter: tableFilterReducer,
+  party: partyReducer,
+  listFilter: listFilterReducer,
+  tableFilter: tableFilterReducer,
 });
 
-const persistedReducer = persistReducer(persistConfig,  reducers);
+const persistedReducer = persistReducer(persistConfig, reducers);
 
 const store = createStore(persistedReducer, composeWithDevTools(applyMiddleware(thunk)));
 
 export default store;
-
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 

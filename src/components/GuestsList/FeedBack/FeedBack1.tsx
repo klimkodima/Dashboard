@@ -1,7 +1,7 @@
-import React, {useState } from "react";
+import {useState } from "react";
 import Box from '@mui/material/Box';
-import { useParams } from 'react-router-dom';
-import { useAppSelector } from '../../../hooks/hooks';
+//import { useParams } from 'react-router-dom';
+//import { useAppSelector } from '../../../hooks/hooks';
 import { useDispatch } from 'react-redux';
 
 import FeedBack from './FeedBack';

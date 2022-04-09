@@ -1,4 +1,3 @@
-import React from 'react';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 
@@ -11,6 +10,6 @@ const Row = ({ labels }: any) => {
       <TableCell align="right">{labels[2]}</TableCell>
     </TableRow>
   );
-}
+};
 
 export default Row;

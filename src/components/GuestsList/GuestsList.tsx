@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { List, ListItem, ListItemText, ListSubheader, Box, Button } from '@mui/material';
@@ -7,7 +7,8 @@ import _ from 'underscore';
 import Popper from "../generics/Popper";
 import Select from "../generics/Select";
 import { clearState } from "../../reducers/partyReducer";
-import { setFilter } from "../../reducers/listFilterReducer";
+import { setFilter, setDefaultListFilter } from "../../reducers/listFilterReducer";
+import { setDefaultTableFilter } from "../../reducers/tableFilterReducer";
 import { useAppSelector } from '../../hooks/hooks';
 import { UIGuest, ListFilter, GuestWithOrder } from "../../types";
 
@@ -38,6 +39,8 @@ const GuestsList = () => {
   const handleBtnClick = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     dispatch(clearState());
+    dispatch(setDefaultListFilter());
+    dispatch( setDefaultTableFilter());
     navigate(`/`);
   };
 
@@ -63,7 +66,7 @@ const GuestsList = () => {
       <List component="nav" aria-label="mailbox folders">
         <ListSubheader component="h2" sx={{ my: 3, fontWeight: 'bold', fontSize: '22px' }}>Party Guests</ListSubheader>
         <Popper open={open} guest={poppupData} anchorEl={anchorEl}/>
-        <Select items={ListFilter} filter={setFilter} defaultValue={ListFilter.All}/>
+        <Select items={ListFilter} filter={setFilter} defaultValue={ListFilter.All} />
         { guests
         .sort((a: UIGuest, b: UIGuest) => (a.name).localeCompare(b.name))
         .map(guest => (
