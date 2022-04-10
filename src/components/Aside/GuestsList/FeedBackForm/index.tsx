@@ -5,17 +5,17 @@ import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
 import FormHelperText from '@mui/material/FormHelperText';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useAppSelector } from '../../../hooks/hooks';
 import { useDispatch } from 'react-redux';
 
-import { UIGuest, Feedback, FormField } from '../../../types';
-import { formatName } from '../../../utils/formatName';
-import { addFeedback } from '../../../reducers/partyReducer';
-import AddedFields from './AddedFields';
-import { useGuestContext } from '../../../contexts/GuestContext';
+import AddedFields from '../AddedFields/AddedFields';
+import { formatName } from '../../../../utils/formatName';
+import { useAppSelector } from '../../../../hooks/hooks';
+import { useGuestContext } from '../../../../contexts/GuestContext';
+import { addFeedback } from '../../../../reducers/partyReducer';
+import { Feedback, FormField } from '../../../../types';
+
 
 
 const initialValues = {
@@ -38,26 +38,10 @@ const validationSchema = Yup.object().shape({
     .required('Comment is required'),
 });
 
-const FeedBackForm = ({ guest, showFieldForm }: { guest: UIGuest, showFieldForm: () => void }) => {
+const FeedBackForm = ({ showFieldForm }: { showFieldForm: () => void }) => {
 
-
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { setGuest, } = useGuestContext();
-
-  const formFields: FormField[] = useAppSelector(state => state.party.formFields);
-
-  const handleSubmit = (values: Feedback) => {
-    const feedBack = { ...values, rating: Number(values.rating) };
-    dispatch(addFeedback(feedBack, guest.id));
-    setGuest(guest);
-  };
-
-  const handleCancel = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    event.preventDefault();
-    navigate('/');
-  }
-
+  const { guest, setGuest, setIsFeedBackModalOpen } = useGuestContext();
 
   const formik = useFormik({
     initialValues,
@@ -66,6 +50,23 @@ const FeedBackForm = ({ guest, showFieldForm }: { guest: UIGuest, showFieldForm:
       handleSubmit(values);
     },
   });
+
+  const formFields: FormField[] = useAppSelector(state => state.party.formFields);
+
+  if(!guest) return null;
+
+  const handleSubmit = (values: Feedback) => {
+    const feedBack: Feedback = { ...values, rating: Number(values.rating) };
+    dispatch(addFeedback(feedBack, guest.id));
+    setGuest(undefined);
+    setIsFeedBackModalOpen(false);
+  };
+
+  const handleCancel = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault();
+    setGuest(undefined);
+    setIsFeedBackModalOpen(false);
+  }
 
   const phoneError = Boolean(formik.errors.phone);
   const commentError = Boolean(formik.errors.comment);

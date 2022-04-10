@@ -1,11 +1,10 @@
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 
-//import GuestsList from "./GuestsList/GuestsL";
-import GuestsList from "./GuestsList";
-import Statistics from "./Statistics";
-import PayTable from "./PayTable";
-import useFetchData from "../hooks/useFetchData";
+import GuestsList from "../Aside";
+import Statistics from "../Statistics";
+import PayTable from "../PayTable";
+import useFetchData from "../../hooks/useFetchData";
 
 const Main = () => {
 

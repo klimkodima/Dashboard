@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { useFormik } from 'formik';
 
-import { FormField } from "../../../types";
+import { FormField } from "../../../../types";
 
 interface Props {
   onClose: () => void;

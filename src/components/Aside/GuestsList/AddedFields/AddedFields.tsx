@@ -2,7 +2,7 @@ import FormControl from '@mui/material/FormControl';
 import Typography from '@mui/material/Typography';
 import OutlinedInput from '@mui/material/OutlinedInput';
 
-import { FormField } from '../../../types';
+import { FormField } from '../../../../types';
 
 const AddedFields = ({ formFields, handleChange }: { formFields: any, handleChange: any }) => {
 

@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { render, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import FieldForm from './FieldForm'
+import FieldForm from '.'
 
 describe('<FieldForm/>', () => {
 
