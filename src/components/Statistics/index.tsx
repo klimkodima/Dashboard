@@ -2,26 +2,26 @@ import Box from '@mui/material/Box';
 import { shallowEqual } from 'react-redux';
 
 import { useAppSelector } from '../../hooks/hooks';
-import PaidCheck from "./PaidCheck";
-import FillFeedBacks from "./FillFeedBacks";
+import PaidProgress from "./PaidProgress";
+import FeedBacksProgress from "./FeedBacksProgress";
 import { GuestWithOrder } from "../../types";
 
 export default function Statistics() {
 
-  const { feedbackProgress, payProgress }: { feedbackProgress: number, payProgress: number } = useAppSelector(
+  const { feedbackProgress, paidProgress }: { feedbackProgress: number, paidProgress: number } = useAppSelector(
     ({ party: { guests }}) => {
       const allGuests = guests.length;
-      const paydCheck = guests.filter((guest: GuestWithOrder) => guest.order === 0).length
+      const paidCheck = guests.filter((guest: GuestWithOrder) => guest.order === 0).length
       const pizzaEaters = guests.filter((guest: GuestWithOrder) => guest.eatsPizza === true).length;
       const feedbackProgress = guests.filter((guest: GuestWithOrder) => !!guest.feedback).length;
-      return { feedbackProgress: feedbackProgress / pizzaEaters * 100, payProgress: paydCheck / allGuests * 100 };
+      return { feedbackProgress: feedbackProgress / pizzaEaters * 100, paidProgress: paidCheck / allGuests * 100 };
     }
     , shallowEqual);
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <PaidCheck payProgress={payProgress} />
-      <FillFeedBacks feedbackProgress={feedbackProgress} />
+    <Box sx={{ width: '100%', height: "100%", display: "flex", alignItems: "center" }}>
+      <PaidProgress paidProgress={paidProgress} />
+      <FeedBacksProgress feedbackProgress={feedbackProgress} />
     </Box>
   );
 }

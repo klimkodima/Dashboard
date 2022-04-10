@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { useDispatch } from 'react-redux';
 
 import { formatName } from '../../../../utils/formatName';
@@ -22,10 +23,16 @@ const FeedBack = () => {
     setGuest(undefined);
     setIsFeedBackModalOpen(false);
   }
+
+  const handleClickAway = () => {
+     setGuest(undefined);
+    setIsFeedBackModalOpen(false);
+  };
   
   if(!guest) return null;
 
   return (
+    <ClickAwayListener onClickAway={handleClickAway}>
     <Card sx={{ minWidth: 275, maxWidth: 500, backgroundColor: "#f8f8f8" }}>
       <CardContent>
         <Box sx={{
@@ -60,6 +67,7 @@ const FeedBack = () => {
         </Typography>
       </CardContent>
     </Card>
+    </ClickAwayListener>
   );
 }
 
