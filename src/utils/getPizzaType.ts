@@ -15,4 +15,4 @@ export const getPizzaType = (diets: any[]): string => {
     return 'vegan';
   }
   return 'cheese';
-}
+};

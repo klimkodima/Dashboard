@@ -1,21 +1,19 @@
-import React, {useState} from "react";
+import { useState } from "react";
 import Box from '@mui/material/Box';
-import { useParams } from 'react-router-dom';
-import { useAppSelector } from '../../../hooks/hooks';
 import { useDispatch } from 'react-redux';
 
-import FeedBack from './FeedBack';
+import FeedBack from './Feedback';
 import FeedBackForm from './FeedBackForm';
 import FieldForm from './FieldForm';
-import { UIGuest, FormField } from "../../../types";
-
 import { addFeedBackFormField } from '../../../reducers/partyReducer';
+import { useGuestContext } from '../../../contexts/GuestContext';
+import { FormField } from "../../../types";
 
 const Feedback = () => {
 
     const [showFieldForm, setShowFieldForm] = useState(false);
-    const params = useParams();
     const dispatch = useDispatch();
+    const { guest, isFeedBackModalOpen } = useGuestContext();
 
     const addField = (values: FormField) => {
         dispatch(addFeedBackFormField(values));
@@ -27,14 +25,12 @@ const Feedback = () => {
     };
 
     const handleShowFieldForm = () => {
-      setShowFieldForm(true);
+        setShowFieldForm(true);
     };
 
-    const guest: UIGuest | undefined  = useAppSelector(state => state.party.guests.find((guest: UIGuest) => guest.id === Number(params.guestId)));
-      
-    if(guest === undefined) return null;
+    if (!guest) return null;
 
-    if(showFieldForm ) return <FieldForm handleSubmit={addField} onClose= {onClose}/>;
+    if (showFieldForm) return <FieldForm handleSubmit={addField} onClose={onClose} />;
 
     return (
         <Box component="section"
@@ -46,7 +42,8 @@ const Feedback = () => {
         >
             <Box sx={{ my: 4 }}>
                 {
-                guest.feedback ? <FeedBack guest={guest} /> : <FeedBackForm  guest={guest} showFieldForm={handleShowFieldForm}/>}
+                    (isFeedBackModalOpen && guest?.feedback) ? <FeedBack/> : <FeedBackForm showFieldForm={handleShowFieldForm}/>
+                }
             </Box>
         </Box>
 

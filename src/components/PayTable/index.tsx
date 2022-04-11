@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import Table from '@mui/material/Table';
@@ -10,21 +10,29 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 import TableRowView from "./TableRow";
-import TableSelect from "./TableSelect";
+import Popper from "../generics/Popper";
+import Select from "../generics/Select";
+import { setFilter } from "../../reducers/tableFilterReducer";
+import { setPaid } from "../../reducers/partyReducer";
 import { useAppSelector } from '../../hooks/hooks';
 import { formatMoney } from '../../utils/formatMoney';
-import { setPaid } from "../../reducers/partyReducer";
-import { GuestWithOrder, Order, TableFilter, } from "../../types";
+import { GuestWithOrder, Order, TableFilter } from "../../types";
 
 const PayTable = () => {
 
   const dispatch = useDispatch();
+
+  const [open, setOpen] = useState(false);
+  const [poppupData, setPoppupData] = useState({});
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const guests: GuestWithOrder[] = useAppSelector(state => {
     switch (state.tableFilter.filter) {
       case TableFilter.Vegans:
         return state.party.guests.filter((guest: GuestWithOrder) => guest.isVegan === true);
       case TableFilter.Meat:
+        return state.party.guests.filter((guest: GuestWithOrder) => guest.isVegan === false);
+      case TableFilter.EatPizza:
         return state.party.guests.filter((guest: GuestWithOrder) => guest.eatsPizza === true);
       case TableFilter.Paid:
         return state.party.guests.filter((guest: GuestWithOrder) => guest.order === 0);
@@ -41,39 +49,48 @@ const PayTable = () => {
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, money: number, name: string) => {
     dispatch(setPaid(money, name));
-    e.currentTarget.setAttribute("disabled", "true");
     e.currentTarget.innerText = 'Paid';
   }
 
-  const handleMouseEnter = (e:any)  => {
-    console.log(0)
+  const handleMouseEnter = (event: any, guest: any) => {
+    setOpen(true);
+    setPoppupData(guest);
+    setAnchorEl(event.currentTarget);
   };
 
-  const handleMouseLeave = (e:any)  => {
-    console.log(1)
-   };
+  const handleMouseLeave = () => {
+    setOpen(false);
+    setPoppupData({});
+    setAnchorEl(null);
+  };
 
   return (
     <TableContainer component={Paper} sx={{ pt: 2 }}>
-      <TableSelect />
+      <Select items={TableFilter} filter={setFilter} defaultValue={TableFilter.All}/>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRowView labels={['Name', 'Share to pay', 'Pay']} />
         </TableHead>
         <TableBody>
+          <Popper open={open} guest={poppupData} anchorEl={anchorEl} />
           {guests.map(guest => (
             <TableRow
               hover
-              onMouseEnter={handleMouseEnter}
+              onMouseEnter={(e) => { handleMouseEnter(e, guest) }}
               onMouseLeave={handleMouseLeave}
               key={guest.name}
-              sx={{  active:{ backgroundColor: "Highlight"}, '&:last-child td, &:last-child th': { border: 0 } }}
+              sx={{ active: { backgroundColor: "Highlight" }, '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell className="vegan" component="th" scope="row"
                 sx={{ ...(guest.isVegan ? { color: 'green' } : { color: 'text.primary' }) }}
               >{guest.name}</TableCell>
               <TableCell align="right">{formatMoney(guest.order)} BYN</TableCell>
-              <TableCell align="right"><button onClick={(e) => handleClick(e, guest.order, guest.name)}>Pay</button></TableCell>
+              <TableCell align="right">
+                <button onClick={(e) => handleClick(e, guest.order, guest.name)}
+                  disabled={guest.order === 0}>
+                  Pay
+                </button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

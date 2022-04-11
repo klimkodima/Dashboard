@@ -60,7 +60,7 @@ const reducer = (state = initialState, action: AnyAction) => {
         },
         guests: state.guests.map(guest => {
           if (guest.name === action.payload.name)
-            guest = { ...guest, order: 0 };
+            guest = { ...guest, paidOrder: guest.order, order: 0 };
           return guest;
         })
       };
@@ -124,15 +124,15 @@ export const setOrder = (pizzaOrder: number, colaOrder: number, pizzaEaters: num
 });
 
 
-export const setPaid = (money: number, name: string) => 
-  ((dispatch: (arg0: { type: string; payload: any; }) => void) => {
-    dispatch({
-      type: "SET_PAID",
-      payload: {
-        money,
-        name
-      }
-    })
-  });
+export const setPaid = (money: number, name: string) =>
+((dispatch: (arg0: { type: string; payload: any; }) => void) => {
+  dispatch({
+    type: "SET_PAID",
+    payload: {
+      money,
+      name
+    }
+  })
+});
 
 export default reducer;

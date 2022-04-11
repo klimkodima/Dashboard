@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -6,26 +5,35 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
-import { useNavigate } from "react-router-dom";
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { useDispatch } from 'react-redux';
 
-import { UIGuest } from "../../../types";
-import { formatName } from '../../../utils/formatName';
-import { deleteFeedback } from "../../../reducers/partyReducer";
+import { formatName } from '../../../../utils/formatName';
+import { formatDate } from '../../../../utils/formatDate';
+import { deleteFeedback } from "../../../../reducers/partyReducer";
+import { useGuestContext } from '../../../../contexts/GuestContext';
+import { UIGuest } from '../../../../types';
 
-
-const FeedBack = ({ guest }: { guest: UIGuest }) => {
+const FeedBack = () => {
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { guest, setGuest, setIsFeedBackModalOpen } = useGuestContext();
 
-
-  const handleClick = () => {
+  const handleClick = (guest: UIGuest) => {
     dispatch(deleteFeedback(guest.id));
-    navigate(`/`);
+    setGuest(undefined);
+    setIsFeedBackModalOpen(false);
   }
 
+  const handleClickAway = () => {
+     setGuest(undefined);
+    setIsFeedBackModalOpen(false);
+  };
+  
+  if(!guest) return null;
+
   return (
+    <ClickAwayListener onClickAway={handleClickAway}>
     <Card sx={{ minWidth: 275, maxWidth: 500, backgroundColor: "#f8f8f8" }}>
       <CardContent>
         <Box sx={{
@@ -38,7 +46,7 @@ const FeedBack = ({ guest }: { guest: UIGuest }) => {
           </Typography>
           <CardActions  sx={{ paddingTop: '0px'}}>
             <Button size="small" color="error" sx={{ textTransform: 'lowercase'}}
-             onClick={handleClick}>delete</Button>
+             onClick={() => handleClick(guest)}>delete</Button>
           </CardActions>
         </Box>
         <Typography variant="body1"  color="text.secondary" sx={{fontSize: '20px'}}>
@@ -58,8 +66,15 @@ const FeedBack = ({ guest }: { guest: UIGuest }) => {
         <Typography  variant="body1" color="text.secondary" sx={{fontSize: '20px'}}>
           {guest?.feedback?.comment}
         </Typography>
+        <Typography variant="overline" color="text.primary" sx={{fontWeight: 'bold'}}>
+          Date
+        </Typography>
+        <Typography variant="body1" color="text.secondary" sx={{fontSize: '20px'}}>
+          {formatDate(guest?.feedback?.date)}
+        </Typography>
       </CardContent>
     </Card>
+    </ClickAwayListener>
   );
 }
 
