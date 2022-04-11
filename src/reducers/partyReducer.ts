@@ -77,13 +77,18 @@ export const initializeState = (guests: GuestWithOrder[]) =>
   })
 });
 
-export const addFeedback = (value: Feedback, id: number) =>
-((dispatch: (arg0: { type: string; payload: { value: Feedback; id: number; }; }) => void) => {
+export const addFeedback = (value: Feedback, id: number) => {
+  return {
+    type: 'ADD_FEEDBACK_REQUEST',
+    payload: {value, id}
+  }
+}
+/* ((dispatch: (arg0: { type: string; payload: { value: Feedback; id: number; }; }) => void) => {
   dispatch({
     type: 'ADD_FEEDBACK',
     payload: { value, id }
   })
-});
+}) ;*/
 
 
 export const deleteFeedback = (id: number) =>
