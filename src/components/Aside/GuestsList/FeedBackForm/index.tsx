@@ -1,4 +1,3 @@
-import React from 'react';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import Box from '@mui/material/Box';
@@ -6,22 +5,28 @@ import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
 import FormHelperText from '@mui/material/FormHelperText';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import { useNavigate } from "react-router-dom";
+import TextField from '@mui/material/TextField';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useAppSelector } from '../../../hooks/hooks';
 import { useDispatch } from 'react-redux';
 
-import { UIGuest, Feedback, FormField } from '../../../types';
-import { formatName } from '../../../utils/formatName';
-import { addFeedback } from '../../../reducers/partyReducer';
-import AddedFields from './AddedFields';
+import AddedFields from '../AddedFields/AddedFields';
+import { formatName } from '../../../../utils/formatName';
+import { useAppSelector } from '../../../../hooks/hooks';
+import { useGuestContext } from '../../../../contexts/GuestContext';
+import { addFeedback } from '../../../../reducers/partyReducer';
+import { I18_EN } from '../../../../i18_en';
+import { Feedback, FormField } from '../../../../types';
+
 
 
 const initialValues = {
   phone: '',
   rating: 3,
-  comment: ''
+  comment: '',
+  date: String(new Date())
 };
 
 const phoneRegExp = /^[()+ 0-9]{3,10}$/g;
@@ -38,25 +43,10 @@ const validationSchema = Yup.object().shape({
     .required('Comment is required'),
 });
 
-const FeedBackForm = ({ guest, showFieldForm }: { guest: UIGuest, showFieldForm: () => void }) => {
+const FeedBackForm = ({ showFieldForm }: { showFieldForm: () => void }) => {
 
-
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const formFields: FormField[] = useAppSelector(state => state.party.formFields);
-
-  const handleSubmit = (values: Feedback) => {
-    const feedBack = { ...values, rating: Number(values.rating) };
-    dispatch(addFeedback(feedBack, guest.id));
-    navigate('/');
-  };
-
-  const handleCancel = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    event.preventDefault();
-    navigate('/');
-  }
-
+  const { guest, setGuest, setIsFeedBackModalOpen } = useGuestContext();
 
   const formik = useFormik({
     initialValues,
@@ -65,6 +55,23 @@ const FeedBackForm = ({ guest, showFieldForm }: { guest: UIGuest, showFieldForm:
       handleSubmit(values);
     },
   });
+
+  const formFields: FormField[] = useAppSelector(state => state.party.formFields);
+
+  if (!guest) return null;
+
+  const handleSubmit = (values: Feedback) => {
+    const feedBack: Feedback = { ...values, rating: Number(values.rating) };
+    dispatch(addFeedback(feedBack, guest.id));
+    setGuest(undefined);
+    setIsFeedBackModalOpen(false);
+  };
+
+  const handleCancel = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault();
+    setGuest(undefined);
+    setIsFeedBackModalOpen(false);
+  }
 
   const phoneError = Boolean(formik.errors.phone);
   const commentError = Boolean(formik.errors.comment);
@@ -77,8 +84,8 @@ const FeedBackForm = ({ guest, showFieldForm }: { guest: UIGuest, showFieldForm:
           flexDirection: 'column',
         }}
       >
-        <Typography component="h1" variant="h5" sx={{ textAlign: 'center', fontWeight: 'bold' }}>
-          Add feedback
+        <Typography component="h3" variant="h5" sx={{ textAlign: 'center', fontWeight: 'bold' }}>
+         {I18_EN.TITLE}
         </Typography>
         <Button
           variant="contained"
@@ -100,9 +107,9 @@ const FeedBackForm = ({ guest, showFieldForm }: { guest: UIGuest, showFieldForm:
             display: 'flex',
             flexDirection: 'column'
           }} >
-          <AddedFields formFields={formFields}  handleChange={formik.handleChange}/>
+          <AddedFields formFields={formFields} handleChange={formik.handleChange} />
           <Typography variant="overline" color="text.primary" gutterBottom sx={{ fontWeight: "bold" }}>
-            Name
+            {I18_EN.NAME_LABEL}
           </Typography>
           <Typography variant="body1" color="text.secondary" sx={{ fontSize: "20px" }}>
             {formatName(guest.name)}
@@ -115,7 +122,7 @@ const FeedBackForm = ({ guest, showFieldForm }: { guest: UIGuest, showFieldForm:
           />
           <FormControl>
             <Typography component="label" variant="overline" color="text.primary" sx={{ fontWeight: 'bold' }}>
-              Phone
+            {I18_EN.PHONE_LABEL}
             </Typography>
             <OutlinedInput id="phone" name="phone" error={phoneError}
               sx={{ backgroundColor: "white" }}
@@ -126,9 +133,8 @@ const FeedBackForm = ({ guest, showFieldForm }: { guest: UIGuest, showFieldForm:
             <FormHelperText error={phoneError} sx={{ height: '16px' }}>{formik.errors.phone}</FormHelperText>
           </FormControl>
           <FormControl>
-
             <Typography component="label" variant="overline" color="text.primary" sx={{ fontWeight: 'bold' }}>
-              Comment
+            {I18_EN.COMMENT_LABEL}
             </Typography>
             <OutlinedInput id="comment" name="comment" error={commentError} multiline minRows={3}
               sx={{ backgroundColor: "white" }}
@@ -136,6 +142,24 @@ const FeedBackForm = ({ guest, showFieldForm }: { guest: UIGuest, showFieldForm:
               onChange={formik.handleChange}
               placeholder="Enter comment"
             />
+            <FormHelperText error={commentError} sx={{ height: '16px' }}>{formik.errors.comment}</FormHelperText>
+          </FormControl>
+          <FormControl>
+            <Typography component="label" variant="overline" color="text.primary" sx={{ fontWeight: 'bold' }}>
+            {I18_EN.DATE_LABEL}
+            </Typography>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <TextField
+                id="date"
+                label="Select date"
+                type="date"
+                defaultValue={formik.values.date}
+                sx={{ width: 220, backgroundColor: "white"  }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </LocalizationProvider>
             <FormHelperText error={commentError} sx={{ height: '16px' }}>{formik.errors.comment}</FormHelperText>
           </FormControl>
           {(phoneError || commentError || formik.values.phone === '' || formik.values.comment === '') ?
@@ -150,7 +174,7 @@ const FeedBackForm = ({ guest, showFieldForm }: { guest: UIGuest, showFieldForm:
                 },
               }}
               onClick={(e) => handleCancel(e)}>
-              Cancel
+              {I18_EN.CANCEL_BUTTON}
             </Button>
             :
             <Button
@@ -165,7 +189,7 @@ const FeedBackForm = ({ guest, showFieldForm }: { guest: UIGuest, showFieldForm:
                 },
               }}
             >
-              Save
+              {I18_EN.SAVE_BUTTON}
             </Button>
           }
         </Box>

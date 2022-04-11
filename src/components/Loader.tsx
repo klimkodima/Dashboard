@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Oval } from "react-loader-spinner";
 import Box from '@mui/material/Box';
 

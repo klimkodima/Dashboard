@@ -3,7 +3,8 @@
       "eslint:recommended",
       "plugin:@typescript-eslint/recommended",
       "plugin:react/recommended",
-      "plugin:@typescript-eslint/recommended-requiring-type-checking"
+      "plugin:@typescript-eslint/recommended-requiring-type-checking",
+      "plugin:react-hooks/recommended"
   ],
   "plugins": ["@typescript-eslint", "react"],
   "env": {
@@ -11,6 +12,8 @@
     "es6": true
   },
   "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "no-restricted-globals": [
       "error",
       {

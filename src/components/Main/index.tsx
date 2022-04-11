@@ -1,11 +1,10 @@
-import React from "react";
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 
-import GuestsList from "./GuestsList";
-import Statistics from "./Statistics";
-import PayTable from "./PayTable";
-import useFetchData from "../hooks/useFetchData";
+import GuestsList from "../Aside";
+import Statistics from "../Statistics";
+import PayTable from "../PayTable";
+import useFetchData from "../../hooks/useFetchData";
 
 const Main = () => {
 
@@ -18,10 +17,10 @@ const Main = () => {
       </Box>
       <Box component="div" sx={{ width: 2 / 3 }}>
         <Box component="section" sx={{ my: 2, mx: 4, height: '30vh', width: '100%' }}>
-          <Statistics/>
+          <Statistics />
         </Box>
         <Box component="section" sx={{ height: '70vh', width: '100%' }}>
-          <PayTable/>
+          <PayTable />
         </Box>
       </Box>
     </Container>

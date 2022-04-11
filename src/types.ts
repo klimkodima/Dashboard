@@ -47,6 +47,7 @@ export interface Feedback {
     phone: string;
     rating: number;
     comment: string;
+    date?:string;
 };
 
 export interface FormField {

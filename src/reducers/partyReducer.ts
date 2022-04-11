@@ -60,7 +60,7 @@ const reducer = (state = initialState, action: AnyAction) => {
         },
         guests: state.guests.map(guest => {
           if (guest.name === action.payload.name)
-            guest = { ...guest, order: 0 };
+            guest = { ...guest, paidOrder: guest.order, order: 0 };
           return guest;
         })
       };
@@ -69,74 +69,70 @@ const reducer = (state = initialState, action: AnyAction) => {
   }
 };
 
-export const initializeState = (guests: GuestWithOrder[]) => {
-  return ((dispatch: (arg0: { type: string; payload: GuestWithOrder[]; }) => void) => {
-    dispatch({
-      type: 'LOAD_GUESTS',
-      payload: guests
-    })
+export const initializeState = (guests: GuestWithOrder[]) =>
+((dispatch: (arg0: { type: string; payload: GuestWithOrder[]; }) => void) => {
+  dispatch({
+    type: 'LOAD_GUESTS',
+    payload: guests
   })
-};
+});
 
-export const addFeedback = (value: Feedback, id: number) => {
-  return ((dispatch: (arg0: { type: string; payload: { value: Feedback; id: number; }; }) => void) => {
-    dispatch({
-      type: 'ADD_FEEDBACK',
-      payload: { value, id }
-    })
-  });
-};
+export const addFeedback = (value: Feedback, id: number) =>
+((dispatch: (arg0: { type: string; payload: { value: Feedback; id: number; }; }) => void) => {
+  dispatch({
+    type: 'ADD_FEEDBACK',
+    payload: { value, id }
+  })
+});
 
-export const deleteFeedback = (id: number) => {
-  return ((dispatch: (arg0: { type: string; payload: number; }) => void) => {
-    dispatch({
-      type: 'DELETE_FEEDBACK',
-      payload: id
-    })
-  });
-};
 
-export const clearState = () => {
-  return ((dispatch: (arg0: { type: string; }) => void) => {
-    dispatch({
-      type: 'CLEAR_STATE',
-    })
-  });
-};
+export const deleteFeedback = (id: number) =>
+((dispatch: (arg0: { type: string; payload: number; }) => void) => {
+  dispatch({
+    type: 'DELETE_FEEDBACK',
+    payload: id
+  })
+});
 
-export const addFeedBackFormField = (field: FormField) => {
-  return ((dispatch: (arg0: { type: string; payload: FormField; }) => void) => {
-    dispatch({
-      type: 'ADD_FORM_FIELD',
-      payload: field
-    })
-  });
-};
 
-export const setOrder = (pizzaOrder: number, colaOrder: number, pizzaEaters: number) => {
-  return ((dispatch: (arg0: { type: string; payload: any; }) => void) => {
-    dispatch({
-      type: 'SET_ORDER',
-      payload: {
-        pizzaOrder,
-        colaOrder,
-        pizzaEaters
-      }
-    })
-  });
-};
+export const clearState = () =>
+((dispatch: (arg0: { type: string; }) => void) => {
+  dispatch({
+    type: 'CLEAR_STATE',
+  })
+});
 
-export const setPaid = (money: number, name: string) => {
-  return ((dispatch: (arg0: { type: string; payload: any; }) => void) => {
-    dispatch({
-      type: "SET_PAID",
-      payload: {
-        money,
-        name
-      }
-    })
-  });
-};
+export const addFeedBackFormField = (field: FormField) =>
+((dispatch: (arg0: { type: string; payload: FormField; }) => void) => {
+  dispatch({
+    type: 'ADD_FORM_FIELD',
+    payload: field
+  })
+});
 
+
+export const setOrder = (pizzaOrder: number, colaOrder: number, pizzaEaters: number) =>
+((dispatch: (arg0: { type: string; payload: any; }) => void) => {
+  dispatch({
+    type: 'SET_ORDER',
+    payload: {
+      pizzaOrder,
+      colaOrder,
+      pizzaEaters
+    }
+  })
+});
+
+
+export const setPaid = (money: number, name: string) =>
+((dispatch: (arg0: { type: string; payload: any; }) => void) => {
+  dispatch({
+    type: "SET_PAID",
+    payload: {
+      money,
+      name
+    }
+  })
+});
 
 export default reducer;
