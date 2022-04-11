@@ -100,12 +100,16 @@ export const deleteFeedback = (id: number) =>
 });
 
 
-export const clearState = () =>
-((dispatch: (arg0: { type: string; }) => void) => {
+export const clearState = () => {
+  return {
+    type: 'CLEAR_APP_STATE'
+  } 
+}
+/* ((dispatch: (arg0: { type: string; }) => void) => {
   dispatch({
     type: 'CLEAR_STATE',
   })
-});
+}); */
 
 export const addFeedBackFormField = (field: FormField) =>
 ((dispatch: (arg0: { type: string; payload: FormField; }) => void) => {
