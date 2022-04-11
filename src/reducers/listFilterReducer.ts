@@ -14,7 +14,7 @@ const reducer = (state = initialState, action: AnyAction) => {
   switch (action.type) {
     case 'SET_LIST_FILTER':
       return action.payload;
-      case 'SET_DEFAULT':
+    case 'SET_DEFAULT':
         return ListFilter.All;
     default:
       return state;

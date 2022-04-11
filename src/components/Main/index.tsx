@@ -1,6 +1,7 @@
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 
+import SagasGuests from "../SagasGuests";
 import GuestsList from "../Aside";
 import Statistics from "../Statistics";
 import PayTable from "../PayTable";
@@ -14,6 +15,7 @@ const Main = () => {
     <Container component="main" sx={{ minHeight: '100vh', width: '100vw', display: "flex" }}>
       <Box component="aside" sx={{ minHeight: '100vh', width: 1 / 3 }}>
         <GuestsList />
+        <SagasGuests/>
       </Box>
       <Box component="div" sx={{ width: 2 / 3 }}>
         <Box component="section" sx={{ my: 2, mx: 4, height: '30vh', width: '100%' }}>

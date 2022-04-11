@@ -47,6 +47,7 @@ const GuestsList = () => {
     if (input.current) {
       input.current.value = ListFilter.All;
     }
+    window.location.reload();
   };
 
   const handleLinkClick = (e: { preventDefault: () => void; }, guest: UIGuest) => {
