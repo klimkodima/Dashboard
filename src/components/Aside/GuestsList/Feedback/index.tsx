@@ -9,6 +9,7 @@ import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { useDispatch } from 'react-redux';
 
 import { formatName } from '../../../../utils/formatName';
+import { formatDate } from '../../../../utils/formatDate';
 import { deleteFeedback } from "../../../../reducers/partyReducer";
 import { useGuestContext } from '../../../../contexts/GuestContext';
 import { UIGuest } from '../../../../types';
@@ -64,6 +65,12 @@ const FeedBack = () => {
         </Typography>
         <Typography  variant="body1" color="text.secondary" sx={{fontSize: '20px'}}>
           {guest?.feedback?.comment}
+        </Typography>
+        <Typography variant="overline" color="text.primary" sx={{fontWeight: 'bold'}}>
+          Date
+        </Typography>
+        <Typography variant="body1" color="text.secondary" sx={{fontSize: '20px'}}>
+          {formatDate(guest?.feedback?.date)}
         </Typography>
       </CardContent>
     </Card>

@@ -5,6 +5,9 @@ import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
 import FormHelperText from '@mui/material/FormHelperText';
 import OutlinedInput from '@mui/material/OutlinedInput';
+import TextField from '@mui/material/TextField';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
@@ -21,7 +24,8 @@ import { Feedback, FormField } from '../../../../types';
 const initialValues = {
   phone: '',
   rating: 3,
-  comment: ''
+  comment: '',
+  date: String(new Date())
 };
 
 const phoneRegExp = /^[()+ 0-9]{3,10}$/g;
@@ -53,7 +57,7 @@ const FeedBackForm = ({ showFieldForm }: { showFieldForm: () => void }) => {
 
   const formFields: FormField[] = useAppSelector(state => state.party.formFields);
 
-  if(!guest) return null;
+  if (!guest) return null;
 
   const handleSubmit = (values: Feedback) => {
     const feedBack: Feedback = { ...values, rating: Number(values.rating) };
@@ -102,7 +106,7 @@ const FeedBackForm = ({ showFieldForm }: { showFieldForm: () => void }) => {
             display: 'flex',
             flexDirection: 'column'
           }} >
-          <AddedFields formFields={formFields}  handleChange={formik.handleChange}/>
+          <AddedFields formFields={formFields} handleChange={formik.handleChange} />
           <Typography variant="overline" color="text.primary" gutterBottom sx={{ fontWeight: "bold" }}>
             Name
           </Typography>
@@ -128,7 +132,6 @@ const FeedBackForm = ({ showFieldForm }: { showFieldForm: () => void }) => {
             <FormHelperText error={phoneError} sx={{ height: '16px' }}>{formik.errors.phone}</FormHelperText>
           </FormControl>
           <FormControl>
-
             <Typography component="label" variant="overline" color="text.primary" sx={{ fontWeight: 'bold' }}>
               Comment
             </Typography>
@@ -138,6 +141,24 @@ const FeedBackForm = ({ showFieldForm }: { showFieldForm: () => void }) => {
               onChange={formik.handleChange}
               placeholder="Enter comment"
             />
+            <FormHelperText error={commentError} sx={{ height: '16px' }}>{formik.errors.comment}</FormHelperText>
+          </FormControl>
+          <FormControl>
+            <Typography component="label" variant="overline" color="text.primary" sx={{ fontWeight: 'bold' }}>
+              Comment
+            </Typography>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <TextField
+                id="date"
+                label="Select date"
+                type="date"
+                defaultValue={formik.values.date}
+                sx={{ width: 220, backgroundColor: "white"  }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </LocalizationProvider>
             <FormHelperText error={commentError} sx={{ height: '16px' }}>{formik.errors.comment}</FormHelperText>
           </FormControl>
           {(phoneError || commentError || formik.values.phone === '' || formik.values.comment === '') ?

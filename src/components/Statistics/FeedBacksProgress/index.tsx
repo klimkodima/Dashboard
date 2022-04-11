@@ -17,7 +17,7 @@ const LinearProgressWithLabel = (props:any) => {
       </Typography>
       <Box sx={{ p: 4,  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Box sx={{ width: '90%', height: 'auto', mt: 4 }}>
-          <LinearProgress variant="determinate" color={color} {...props}/>
+          <LinearProgress thickness={6} variant="determinate" color={color} {...props}/>
         </Box>
         <Box sx={{ width: '5%', }}>
           <Typography variant="body2" color="text.secondary">{`${props.value && Math.round(

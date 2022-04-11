@@ -21,7 +21,9 @@ function CircularProgressWithLabel(props: any) {
         alignItems: "center"
       }}>
         <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-          <CircularProgress size={80} variant="determinate" color={color} {...props} />
+          <CircularProgress   sx={{ borderRadius: '50%', opacity: '0.9',
+            boxShadow: "inset 0 0 1px 5px", backgroundColor: "transparent"}}
+               thickness={6} size={80} variant="determinate" color={color} {...props} />
           <Box
             sx={{
               top: 0,
