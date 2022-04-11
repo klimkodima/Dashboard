@@ -69,7 +69,7 @@ const PayTable = () => {
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }} 
                 onClick={() => console.log(`${guest.name}`)}
                 onMouseEnter={(e) => { mouseEnterHandler(e, guest)}}
-                onMouseLeave={() => { setShowPopUp(false); setCurrentData({})}} 
+                onMouseLeave={mouseLeaveHandler} 
                 >
               <TableCell className="vegan" component="th" scope="row"
                sx={{...(guest.isVegan ? { color: 'green' } : { color: 'text.primary' })}}

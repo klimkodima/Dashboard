@@ -5,24 +5,24 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 
 import partyReducer from './reducers/partyReducer';
+import tableFilterReducer from './reducers/tableFilterReducer';
+import listFilterReducer from './reducers/listFilterReducer';
 
 const persistConfig = {
   key: 'root',
-  storage,
+  storage
 };
 
 const reducers = combineReducers({
-    party: partyReducer,
+  party: partyReducer,
+  listFilter: listFilterReducer,
+  tableFilter: tableFilterReducer,
 });
 
-const persistedReducer = persistReducer(persistConfig,  reducers);
+const persistedReducer = persistReducer(persistConfig, reducers);
 
 const store = createStore(persistedReducer, composeWithDevTools(applyMiddleware(thunk)));
 
 export default store;
-
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-
-
-
