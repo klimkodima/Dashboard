@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -6,7 +6,8 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
-const DropDownSelect = ({ items, filter, defaultValue }: any) => {
+const DropDownSelect = React.forwardRef(({ items, filter, defaultValue }: any, ref) => {
+
     const [listFilter, setListFilter] = useState(defaultValue);
     const dispatch = useDispatch();
 
@@ -24,12 +25,13 @@ const DropDownSelect = ({ items, filter, defaultValue }: any) => {
                     value={listFilter}
                     label="Filter"
                     onChange={handleChange}
+                    inputRef={ref}
                 >
                     {Object.entries(items).map((item: any) => <MenuItem key={item[0]} value={item[1]}>{item[1]}</MenuItem>)}
                 </Select>
             </FormControl>
         </Box>
     );
-};
+});
 
 export default DropDownSelect;
