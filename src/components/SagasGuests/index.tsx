@@ -1,11 +1,26 @@
-import React from "react";
-import Guests from "./Guests";
+//import React from "react";
+import { useEffect } from "react";
+import { useDispatch } from 'react-redux';
 
-const SagasGuests: React.FunctionComponent = (props) => {
+
+import { getGuests } from '../../sagas/actionCreators/guestsActionCreators';
+import { useAppSelector } from '../../hooks/hooks';
+
+
+const SagasGuests = () => {
+
+  const dispatch = useDispatch();
+  const {guests, isLoading, error } =  useAppSelector(state => 
+    ({guests:state.saga.guests, isLoading: state.saga.isLoading , error: state.saga.error}));
+
+    useEffect(() => {
+        dispatch(getGuests("guests"));
+    },);
+
   return (
     <div>
       <h1>Guests</h1>
-      <Guests/>
+     {String(guests)}
     </div>
   );
 };

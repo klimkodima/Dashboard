@@ -16,7 +16,7 @@ export default function guestsReducer(
   switch (action.type) {
     case actions.SET_GUESTS:
     case actions.GET_GUESTS_SUCCESS:
-      return {
+      return { ...state,
         guests: action.guests
       };
     default:
