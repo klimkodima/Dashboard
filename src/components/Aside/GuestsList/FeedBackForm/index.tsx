@@ -17,6 +17,7 @@ import { formatName } from '../../../../utils/formatName';
 import { useAppSelector } from '../../../../hooks/hooks';
 import { useGuestContext } from '../../../../contexts/GuestContext';
 import { addFeedback } from '../../../../reducers/partyReducer';
+import { I18_EN } from '../../../../i18_en';
 import { Feedback, FormField } from '../../../../types';
 
 
@@ -83,8 +84,8 @@ const FeedBackForm = ({ showFieldForm }: { showFieldForm: () => void }) => {
           flexDirection: 'column',
         }}
       >
-        <Typography component="h1" variant="h5" sx={{ textAlign: 'center', fontWeight: 'bold' }}>
-          Add feedback
+        <Typography component="h3" variant="h5" sx={{ textAlign: 'center', fontWeight: 'bold' }}>
+         {I18_EN.TITLE}
         </Typography>
         <Button
           variant="contained"
@@ -108,7 +109,7 @@ const FeedBackForm = ({ showFieldForm }: { showFieldForm: () => void }) => {
           }} >
           <AddedFields formFields={formFields} handleChange={formik.handleChange} />
           <Typography variant="overline" color="text.primary" gutterBottom sx={{ fontWeight: "bold" }}>
-            Name
+            {I18_EN.NAME_LABEL}
           </Typography>
           <Typography variant="body1" color="text.secondary" sx={{ fontSize: "20px" }}>
             {formatName(guest.name)}
@@ -121,7 +122,7 @@ const FeedBackForm = ({ showFieldForm }: { showFieldForm: () => void }) => {
           />
           <FormControl>
             <Typography component="label" variant="overline" color="text.primary" sx={{ fontWeight: 'bold' }}>
-              Phone
+            {I18_EN.PHONE_LABEL}
             </Typography>
             <OutlinedInput id="phone" name="phone" error={phoneError}
               sx={{ backgroundColor: "white" }}
@@ -133,7 +134,7 @@ const FeedBackForm = ({ showFieldForm }: { showFieldForm: () => void }) => {
           </FormControl>
           <FormControl>
             <Typography component="label" variant="overline" color="text.primary" sx={{ fontWeight: 'bold' }}>
-              Comment
+            {I18_EN.COMMENT_LABEL}
             </Typography>
             <OutlinedInput id="comment" name="comment" error={commentError} multiline minRows={3}
               sx={{ backgroundColor: "white" }}
@@ -145,7 +146,7 @@ const FeedBackForm = ({ showFieldForm }: { showFieldForm: () => void }) => {
           </FormControl>
           <FormControl>
             <Typography component="label" variant="overline" color="text.primary" sx={{ fontWeight: 'bold' }}>
-              Comment
+            {I18_EN.DATE_LABEL}
             </Typography>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <TextField
@@ -173,7 +174,7 @@ const FeedBackForm = ({ showFieldForm }: { showFieldForm: () => void }) => {
                 },
               }}
               onClick={(e) => handleCancel(e)}>
-              Cancel
+              {I18_EN.CANCEL_BUTTON}
             </Button>
             :
             <Button
@@ -188,7 +189,7 @@ const FeedBackForm = ({ showFieldForm }: { showFieldForm: () => void }) => {
                 },
               }}
             >
-              Save
+              {I18_EN.SAVE_BUTTON}
             </Button>
           }
         </Box>
