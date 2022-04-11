@@ -9,6 +9,8 @@ import partyReducer from './reducers/partyReducer';
 import tableFilterReducer from './reducers/tableFilterReducer';
 import listFilterReducer from './reducers/listFilterReducer';
 
+import { sagaAddFeedbackWatcher } from '../src/saga/sagas';
+
 const saga = createSagaMiddleware();
 
 const persistConfig = {
@@ -25,6 +27,8 @@ const reducers = combineReducers({
 const persistedReducer = persistReducer(persistConfig, reducers);
 
 const store = createStore(persistedReducer, composeWithDevTools(applyMiddleware(thunk, saga)));
+
+saga.run(sagaAddFeedbackWatcher);
 
 export default store;
 export type RootState = ReturnType<typeof store.getState>;
