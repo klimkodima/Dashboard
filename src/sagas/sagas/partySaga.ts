@@ -1,4 +1,4 @@
-import { put, call, takeEvery, all, fork, join, takeLatest } from "redux-saga/effects";
+import { put, call, takeEvery, all, fork } from "redux-saga/effects";
 
 import { fetchAPI } from "../../services/guests";
 import * as guestsActionCreators from "../actionCreators/guestsActionCreators";
@@ -10,7 +10,7 @@ import { setDietsQuerry } from "../../utils/setSagasDietsQuerry";
 import { setDiet } from '../../utils/setDiet';
 import { getPizzaType } from "../../utils/getPizzaType";
 import { formatToBYN } from '../../utils/formatToBYN';
-import { UIGuest, GuestWithOrder, Diet } from "../../types";
+import {  GuestWithOrder } from "../../types";
 
 
 
@@ -26,14 +26,13 @@ function* onLoadGuests() {
  //   yield put(guestsActionCreators.getGuestsRequest());
     const { data } = yield call(fetchAPI,"guests");
     const pizzaEatersNumber: number = data.party.filter((eater: { eatsPizza: boolean; }) => eater.eatsPizza === true).length;
-    const querry: string =yield call(setDietsQuerry,data.party);
-    const  diet : Diet[] = yield call(fetchAPI,"world-diets-book/" + querry);
-    console.log(diet);
+    const querry: string = yield call(setDietsQuerry, data.party);
+    const { currency } = yield call(fetchAPI,"currency");
+    const { data: colaAccount } = yield call(fetchAPI,`order-cola/${data.party.length}`);
+    const { data: {diet }} = yield call(fetchAPI,"world-diets-book/" + querry);
     const guestsWithDiet: GuestWithOrder[] = yield call(setDiet,data.party, diet);
     const typePizza:string = yield call(getPizzaType, diet);
-    const { currency } = yield call(fetchAPI,"currency");
-    const { colaAccount } = yield call(fetchAPI,`order-cola/${data.party.guests.length}`);
-    const { pizzaAccount } = yield call(fetchAPI,`order/${typePizza}/${pizzaEatersNumber}`);
+    const { data: pizzaAccount } = yield call(fetchAPI,`order/${typePizza}/${pizzaEatersNumber}`);
     const pizzaAccountBYN: number = yield call(formatToBYN, pizzaAccount?.price, currency);
     const colaAccountBYN: number = yield call(formatToBYN, colaAccount?.price, currency);
     const totalOrder = pizzaAccountBYN + colaAccountBYN;
@@ -45,7 +44,7 @@ function* onLoadGuests() {
       { ...guest, order: pizzaPaiment + colaPaiment }
        : 
        { ...guest, order: colaPaiment });
-     yield put(guestsActionCreators.getGuestsSuccess(guests));
+     yield put(guestsActionCreators.setGuests(guests));
   } catch (error:any) {
     yield put(guestsActionCreators.getGuestsFailure(error.response.data.error));
   }
