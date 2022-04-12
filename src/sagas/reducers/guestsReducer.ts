@@ -1,8 +1,8 @@
 import * as actions from "../actionTypes/guestsActionTypes";
-import { UIGuest } from "../../types";
+import { GuestWithOrder } from "../../types";
 
 export interface GuestsState {
-  guests: UIGuest[];
+  guests: GuestWithOrder[];
 }
 
 const initialState: GuestsState = {
@@ -15,10 +15,13 @@ export default function guestsReducer(
 ): GuestsState {
   switch (action.type) {
     case actions.SET_GUESTS:
-    case actions.GET_GUESTS_SUCCESS:
-      return { ...state,
+      return {
+        ...state,
         guests: action.guests
       };
+    case actions.CLEAR_STATE:
+      return { ...initialState };
+    case actions.GET_GUESTS_SUCCESS:
     default:
       return state;
   }

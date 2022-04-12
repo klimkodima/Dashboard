@@ -1,15 +1,19 @@
-import { UIGuest } from "../../types";
+import { UIGuest, GuestWithOrder } from "../../types";
 
 export const SET_GUESTS = "guestsActionTypes/SET_GUESTS";
 export interface SetGuestsAction {
   type: typeof SET_GUESTS;
-  guests: UIGuest[];
+  guests: GuestWithOrder[];
 }
 
 export const GET_GUESTS = "guestsActionTypes/GET_GUESTS";
 export interface GetGuestsAction {
   type: typeof GET_GUESTS;
-  query: string;
+}
+
+export const CLEAR_STATE = "guestsActionTypes/CLEAR_STATE";
+export interface ClearStateAction {
+  type: typeof CLEAR_STATE;
 }
 
 export const GET_GUESTS_REQUEST = "guestsActionTypes/GET_GUESTS_REQUEST";
@@ -34,4 +38,5 @@ export type GuestsAction =
   | GetGuestsAction
   | GetGuestsRequestAction
   | GetGuestsSuccessAction
-  | GetGuestsFailureAction;
+  | GetGuestsFailureAction
+  | ClearStateAction;

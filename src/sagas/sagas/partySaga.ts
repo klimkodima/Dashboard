@@ -1,23 +1,90 @@
-import { put, call, takeEvery, all, fork } from "redux-saga/effects";
+import { put, call, takeEvery, all, fork, join, takeLatest } from "redux-saga/effects";
 
-import { fetchGuests } from "../../services/guests";
-import * as actionCreators from "../actionCreators/guestsActionCreators";
-import * as actionTypes from "../actionTypes/guestsActionTypes";
+import { fetchAPI } from "../../services/guests";
+import * as guestsActionCreators from "../actionCreators/guestsActionCreators";
+import * as guestsActionTypes from "../actionTypes/guestsActionTypes";
+//import * as currencyActionCreators from "../actionCreators/currencyActionCreators";
+//import * as currencyActionTypes from "../actionTypes/currencyActionTypes";
 
-function* onLoadGuests({ query }: actionTypes.GetGuestsAction) {
+import { setDietsQuerry } from "../../utils/setSagasDietsQuerry";
+import { setDiet } from '../../utils/setDiet';
+import { getPizzaType } from "../../utils/getPizzaType";
+import { formatToBYN } from '../../utils/formatToBYN';
+import { UIGuest, GuestWithOrder, Diet } from "../../types";
+
+
+
+function* onClearState() {
+  
+  yield put(guestsActionCreators.clearState());
+
+}
+
+function* onLoadGuests() {
+
   try {
-    yield put(actionCreators.getGuestsRequest());
-    const { data } = yield call(fetchGuests, query);
-    yield put(actionCreators.getGuestsSuccess(data.party));
+ //   yield put(guestsActionCreators.getGuestsRequest());
+    const { data } = yield call(fetchAPI,"guests");
+    const pizzaEatersNumber: number = data.party.filter((eater: { eatsPizza: boolean; }) => eater.eatsPizza === true).length;
+    const querry: string =yield call(setDietsQuerry,data.party);
+    const  diet : Diet[] = yield call(fetchAPI,"world-diets-book/" + querry);
+    console.log(diet);
+    const guestsWithDiet: GuestWithOrder[] = yield call(setDiet,data.party, diet);
+    const typePizza:string = yield call(getPizzaType, diet);
+    const { currency } = yield call(fetchAPI,"currency");
+    const { colaAccount } = yield call(fetchAPI,`order-cola/${data.party.guests.length}`);
+    const { pizzaAccount } = yield call(fetchAPI,`order/${typePizza}/${pizzaEatersNumber}`);
+    const pizzaAccountBYN: number = yield call(formatToBYN, pizzaAccount?.price, currency);
+    const colaAccountBYN: number = yield call(formatToBYN, colaAccount?.price, currency);
+    const totalOrder = pizzaAccountBYN + colaAccountBYN;
+    const pizzaPaiment = pizzaAccountBYN / pizzaEatersNumber;
+    const colaPaiment = colaAccount /  data.party.guests.length;
+    const guests: GuestWithOrder[] = guestsWithDiet.map((guest: GuestWithOrder) =>
+     guest.eatsPizza === true
+      ? 
+      { ...guest, order: pizzaPaiment + colaPaiment }
+       : 
+       { ...guest, order: colaPaiment });
+     yield put(guestsActionCreators.getGuestsSuccess(guests));
   } catch (error:any) {
-    yield put(actionCreators.getGuestsFailure(error.response.data.error));
+    yield put(guestsActionCreators.getGuestsFailure(error.response.data.error));
+  }
+};
+/*
+function* workerGuests() {
+
+  try {
+    const task0 = yield fork(onLoadGuests);
+    const guests = yield join(task0);
+   
+  //  yield put(guestsActionCreators.getGuestsSuccess(data.party));
+  } catch (error:any) {
+    yield put(guestsActionCreators.getGuestsFailure(error.response.data.error));
+  }
+};*/
+/*
+function* onLoadCurrency({ }: currencyActionTypes.GetCurrencyAction) {
+
+  try {
+    yield put(currencyActionCreators.getCurrencyRequest());
+    const { data } = yield call(fetchAPI, "currency");
+    yield put(currencyActionCreators.getCurrencySuccess(data));
+  } catch (error:any) {
+    yield put(currencyActionCreators.getCurrencyFailure(error.response.data.error));
   }
 }
 
+*/
+
+
 function* watchOnLoadGuests() {
-  yield takeEvery(actionTypes.GET_GUESTS, onLoadGuests);
+  yield takeEvery(guestsActionTypes.GET_GUESTS, onLoadGuests);
+}
+
+function* watchOnClearState() {
+  yield takeEvery(guestsActionTypes.CLEAR_STATE, onClearState);
 }
 
 export default function* partySaga() {
-  yield all([fork( watchOnLoadGuests)]);
+  yield all([fork( watchOnLoadGuests), fork( watchOnClearState)]);
 }

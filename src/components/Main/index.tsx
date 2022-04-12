@@ -9,7 +9,7 @@ import useFetchData from "../../hooks/useFetchData";
 
 const Main = () => {
 
-  useFetchData();
+  //useFetchData();
 
   return (
     <Container component="main" sx={{ minHeight: '100vh', width: '100vw', display: "flex" }}>

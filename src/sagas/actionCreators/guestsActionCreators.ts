@@ -1,19 +1,22 @@
 import * as actions from "../actionTypes/guestsActionTypes";
-import { UIGuest } from "../../types";
+import { UIGuest, GuestWithOrder } from "../../types";
 
-export function setGuests(guests: UIGuest[]): actions.SetGuestsAction {
+export function setGuests(guests: GuestWithOrder[]): actions.SetGuestsAction {
   return {
     type: actions.SET_GUESTS,
     guests
   };
 }
 
-export function getGuests(
-  query: string,
-): actions.GetGuestsAction {
+export function getGuests(): actions.GetGuestsAction {
   return {
     type: actions.GET_GUESTS,
-     query
+  };
+}
+
+export function clearState(): actions.ClearStateAction {
+  return {
+    type: actions.CLEAR_STATE,
   };
 }
 
