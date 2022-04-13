@@ -4,7 +4,8 @@ import { ThemeProvider } from '@mui/material/styles';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 
-import Main from "./components/Main";
+import Main from "./components/DashBoard/Dashboard";
+//import Main from "./components/Main";
 import Loader from "./components/Loader";
 import store from './store';
 import theme from './theme';

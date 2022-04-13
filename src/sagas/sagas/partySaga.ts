@@ -1,4 +1,4 @@
-import { put, call, takeEvery, all, fork } from "redux-saga/effects";
+import { put, call, takeEvery, takeLatest, all, fork } from "redux-saga/effects";
 
 import { fetchAPI } from "../../services/guests";
 import * as guestsActionCreators from "../actionCreators/guestsActionCreators";
@@ -23,7 +23,6 @@ function* onClearState() {
 function* onLoadGuests() {
 
   try {
- //   yield put(guestsActionCreators.getGuestsRequest());
     const { data } = yield call(fetchAPI,"guests");
     const pizzaEatersNumber: number = data.party.filter((eater: { eatsPizza: boolean; }) => eater.eatsPizza === true).length;
     const querry: string = yield call(setDietsQuerry, data.party);
@@ -37,14 +36,15 @@ function* onLoadGuests() {
     const colaAccountBYN: number = yield call(formatToBYN, colaAccount?.price, currency);
     const totalOrder = pizzaAccountBYN + colaAccountBYN;
     const pizzaPaiment = pizzaAccountBYN / pizzaEatersNumber;
-    const colaPaiment = colaAccount /  data.party.guests.length;
+    const colaPaiment = colaAccount /  data.party.length;
     const guests: GuestWithOrder[] = guestsWithDiet.map((guest: GuestWithOrder) =>
      guest.eatsPizza === true
       ? 
       { ...guest, order: pizzaPaiment + colaPaiment }
        : 
        { ...guest, order: colaPaiment });
-     yield put(guestsActionCreators.setGuests(guests));
+       const order = { totalOrder: totalOrder, moneyToCollect: 0, collectedMoney: 0 }
+     yield put(guestsActionCreators.setGuests(guests, order));
   } catch (error:any) {
     yield put(guestsActionCreators.getGuestsFailure(error.response.data.error));
   }
@@ -77,13 +77,13 @@ function* onLoadCurrency({ }: currencyActionTypes.GetCurrencyAction) {
 
 
 function* watchOnLoadGuests() {
-  yield takeEvery(guestsActionTypes.GET_GUESTS, onLoadGuests);
-}
+  yield takeLatest(guestsActionTypes.GET_GUESTS, onLoadGuests);
+};
 
 function* watchOnClearState() {
   yield takeEvery(guestsActionTypes.CLEAR_STATE, onClearState);
-}
+};
 
 export default function* partySaga() {
-  yield all([fork( watchOnLoadGuests), fork( watchOnClearState)]);
-}
+  yield all([fork(watchOnLoadGuests), fork(watchOnClearState)]);
+};

@@ -9,7 +9,7 @@ const LinearProgressWithLabel = (props:any) => {
   const color = decorateProgress(props.value);
 
   return (
-    <Box sx={{  display: 'flex', height: "250px", flexDirection: "column", mr: 2,
+    <Box sx={{  display: 'flex', height: "250px", flexDirection: "column",
       border: "2px solid lightgrey", justifyContent: "center", alignItems: "center", borderRadius: "20px"
     }}>
       <Typography component="h5" variant="h6" sx={{ p: 4, textAlign: 'center', fontWeight: 'bold' }}>

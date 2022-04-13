@@ -25,15 +25,15 @@ const GuestsList = () => {
   const guests: UIGuest[] = useAppSelector(state => {
     switch (state.listFilter.filter) {
       case ListFilter.Active:
-        return state.party.guests.filter((guest: GuestWithOrder) => !!guest.feedback);
+        return state.saga.guests.filter((guest: GuestWithOrder) => !!guest.feedback);
       case ListFilter.Vegans:
-        return state.party.guests.filter((guest: GuestWithOrder) => guest.isVegan === true);
+        return state.saga.guests.filter((guest: GuestWithOrder) => guest.isVegan === true);
       case ListFilter.Meat:
-        return state.party.guests.filter((guest: GuestWithOrder) => guest.isVegan === false);
+        return state.saga.guests.filter((guest: GuestWithOrder) => guest.isVegan === false);
       case ListFilter.EatPizza:
-        return state.party.guests.filter((guest: GuestWithOrder) => guest.eatsPizza === true);
+        return state.saga.guests.filter((guest: GuestWithOrder) => guest.eatsPizza === true);
       default:
-        return state.party.guests;
+        return state.saga.guests;
     }
   }, _.isEqual);
 

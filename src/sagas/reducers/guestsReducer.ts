@@ -1,12 +1,16 @@
 import * as actions from "../actionTypes/guestsActionTypes";
-import { GuestWithOrder } from "../../types";
+import { GuestWithOrder, FormField, Order } from "../../types";
 
 export interface GuestsState {
   guests: GuestWithOrder[];
+  formFields: FormField[];
+  order: Order;
 }
 
 const initialState: GuestsState = {
-  guests: []
+  guests: [],
+  formFields: [],
+  order: { totalOrder: 0, moneyToCollect: 0, collectedMoney: 0 },
 };
 
 export default function guestsReducer(
@@ -17,11 +21,11 @@ export default function guestsReducer(
     case actions.SET_GUESTS:
       return {
         ...state,
-        guests: action.guests
+        guests: action.guests,
+        order: action.order
       };
     case actions.CLEAR_STATE:
       return { ...initialState };
-    case actions.GET_GUESTS_SUCCESS:
     default:
       return state;
   }

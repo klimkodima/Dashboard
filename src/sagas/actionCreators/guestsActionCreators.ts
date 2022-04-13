@@ -1,10 +1,11 @@
 import * as actions from "../actionTypes/guestsActionTypes";
-import { UIGuest, GuestWithOrder } from "../../types";
+import { UIGuest, GuestWithOrder, Order } from "../../types";
 
-export function setGuests(guests: GuestWithOrder[]): actions.SetGuestsAction {
+export function setGuests(guests: GuestWithOrder[], order: Order): actions.SetGuestsAction {
   return {
     type: actions.SET_GUESTS,
-    guests
+      guests,
+      order
   };
 }
 

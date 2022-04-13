@@ -29,24 +29,26 @@ const PayTable = () => {
   const guests: GuestWithOrder[] = useAppSelector(state => {
     switch (state.tableFilter.filter) {
       case TableFilter.Vegans:
-        return state.party.guests.filter((guest: GuestWithOrder) => guest.isVegan === true);
+        return state.saga.guests.filter((guest: GuestWithOrder) => guest.isVegan === true);
       case TableFilter.Meat:
-        return state.party.guests.filter((guest: GuestWithOrder) => guest.isVegan === false);
+        return state.saga.guests.filter((guest: GuestWithOrder) => guest.isVegan === false);
       case TableFilter.EatPizza:
-        return state.party.guests.filter((guest: GuestWithOrder) => guest.eatsPizza === true);
+        return state.saga.guests.filter((guest: GuestWithOrder) => guest.eatsPizza === true);
       case TableFilter.Paid:
         return state.party.guests.filter((guest: GuestWithOrder) => guest.order === 0);
       case TableFilter.NotPaid:
-        return state.party.guests.filter((guest: GuestWithOrder) => guest.order !== 0);
+        return state.saga.guests.filter((guest: GuestWithOrder) => guest.order !== 0);
       default:
-        return state.party.guests;
+        return state.saga.guests;
     }
   }, shallowEqual);
 
-  const order: Order = useAppSelector(
-    state => state.party.order
+  const order: Order = { totalOrder: 0, moneyToCollect: 0, collectedMoney: 0 }
+  
+  /*useAppSelector(
+    state => state.saga.order
     , shallowEqual);
-
+*/
   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, money: number, name: string) => {
     dispatch(setPaid(money, name));
     e.currentTarget.innerText = 'Paid';

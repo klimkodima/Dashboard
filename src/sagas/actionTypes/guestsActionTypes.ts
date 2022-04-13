@@ -1,9 +1,10 @@
-import { UIGuest, GuestWithOrder } from "../../types";
+import { UIGuest, GuestWithOrder, Order } from "../../types";
 
 export const SET_GUESTS = "guestsActionTypes/SET_GUESTS";
 export interface SetGuestsAction {
   type: typeof SET_GUESTS;
   guests: GuestWithOrder[];
+  order: Order;
 }
 
 export const GET_GUESTS = "guestsActionTypes/GET_GUESTS";

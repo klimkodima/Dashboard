@@ -8,7 +8,7 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 import partyReducer from './reducers/partyReducer';
 import tableFilterReducer from './reducers/tableFilterReducer';
 import listFilterReducer from './reducers/listFilterReducer';
-import rootReducer from "./sagas/reducers/rootReducer";
+import guestsReducer  from "./sagas/reducers/guestsReducer";
 
 import rootSaga from './sagas/sagas/rootSaga';
 
@@ -21,7 +21,7 @@ const reducers = combineReducers({
   party: partyReducer,
   listFilter: listFilterReducer,
   tableFilter: tableFilterReducer,
-  saga: rootReducer
+  saga: guestsReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
